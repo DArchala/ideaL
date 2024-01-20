@@ -3,6 +3,7 @@ package pl.archala.ideal.configuration;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -37,6 +38,13 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(value = ConstraintViolationException.class)
     protected ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
         List<String> reasons = e.getConstraintViolations().stream().map(ConstraintViolation::getMessageTemplate).toList();
+        ErrorResponse errorResponse = new ErrorResponse(reasons, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
+    }
+
+    @ExceptionHandler(value = PropertyReferenceException.class)
+    protected ResponseEntity<ErrorResponse> handleConstraintViolationException(PropertyReferenceException e) {
+        List<String> reasons = List.of(e.getMessage());
         ErrorResponse errorResponse = new ErrorResponse(reasons, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
     }
