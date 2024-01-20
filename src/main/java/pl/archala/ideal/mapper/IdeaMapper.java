@@ -16,8 +16,8 @@ public class IdeaMapper {
 
     public Idea toEntity(AddIdeaDTO ideaDTO) {
         Idea idea = new Idea();
-        idea.setName(ideaDTO.getName());
-        idea.setContent(ideaDTO.getContent());
+        idea.setName(ideaDTO.name());
+        idea.setContent(ideaDTO.content());
         idea.setCreated(LocalDateTime.now());
         return idea;
     }

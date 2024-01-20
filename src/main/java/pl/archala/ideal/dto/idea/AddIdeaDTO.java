@@ -1,11 +1,8 @@
 package pl.archala.ideal.dto.idea;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import jakarta.validation.constraints.NotBlank;
 
-@Getter
-@AllArgsConstructor
-public class AddIdeaDTO {
-    private final String name;
-    private final String content;
+public record AddIdeaDTO(
+        @NotBlank(message = "Idea name must not be blank") String name,
+        @NotBlank(message = "Idea content must not be blank") String content) {
 }
