@@ -5,6 +5,8 @@ import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
 import pl.archala.ideal.entity.Idea;
 
+import java.time.LocalDateTime;
+
 @Component
 public class IdeaMapper {
 
@@ -16,7 +18,7 @@ public class IdeaMapper {
         Idea idea = new Idea();
         idea.setName(ideaDTO.getName());
         idea.setContent(ideaDTO.getContent());
-        idea.setCreated(ideaDTO.getCreate());
+        idea.setCreated(LocalDateTime.now());
         return idea;
     }
 }
