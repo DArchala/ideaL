@@ -2,27 +2,22 @@ package pl.archala.ideal.dto.idea;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import pl.archala.ideal.dto.comment.GetSimpleCommentDTO;
 import pl.archala.ideal.entity.Idea;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class GetIdeaDTO {
-
+public class GetSimpleIdeaDTO {
     private final Long id;
     private final String name;
     private final String content;
-    private final List<GetSimpleCommentDTO> comments;
     private final LocalDateTime created;
 
-    public GetIdeaDTO(Idea idea) {
+    public GetSimpleIdeaDTO(Idea idea) {
         this.id = idea.getId();
         this.name = idea.getName();
         this.content = idea.getContent();
-        this.comments = idea.getComment().stream().map(GetSimpleCommentDTO::new).toList();
         this.created = idea.getCreated();
     }
 }
