@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.archala.ideal.dto.comment.AddCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
+import pl.archala.ideal.dto.comment.GetSimpleCommentDTO;
 import pl.archala.ideal.service.interfaces.CommentsService;
 
 @RestController
@@ -27,5 +28,11 @@ public class CommentsController {
     public ResponseEntity<GetCommentDTO> save(@Valid @RequestBody AddCommentDTO addCommentDTO) {
         GetCommentDTO getCommentDTO = commentsService.save(addCommentDTO);
         return ResponseEntity.status(201).body(getCommentDTO);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<GetSimpleCommentDTO> delete(@RequestParam Long id) {
+        GetSimpleCommentDTO dto = commentsService.deleteById(id);
+        return ResponseEntity.ok(dto);
     }
 }

@@ -22,7 +22,7 @@ public class GetIdeaDTO {
         this.id = idea.getId();
         this.name = idea.getName();
         this.content = idea.getContent();
-        this.comments = idea.getComment().stream().map(GetSimpleCommentDTO::new).toList();
+        this.comments = idea.getComments().stream().map(GetSimpleCommentDTO::new).toList();
         this.created = idea.getCreated();
     }
 }
