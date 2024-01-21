@@ -25,6 +25,9 @@ public class Idea {
 //    @JoinColumn(name = "user_id")
 //    private User user;
 
+    @OneToOne
+    private Comment comment;
+
     @Column
     private LocalDateTime created;
 

@@ -39,11 +39,11 @@ public class IdeasController {
 
     @GetMapping("/page")
     public ResponseEntity<List<GetIdeaDTO>> get(
-            @RequestParam @Min(message = "Page number must be equal or greater than 0", value = 0) int pageNumber,
-            @RequestParam @Min(value = 1, message = "Page length must be equal or greater than 1")
+            @RequestParam(defaultValue = "0") @Min(message = "Page number must be equal or greater than 0", value = 0) int pageNumber,
+            @RequestParam(defaultValue = "20") @Min(value = 1, message = "Page length must be equal or greater than 1")
             @Max(value = 200, message = "Page length must be equal or less than 200") int pageLength,
-            @RequestParam Sort.Direction direction,
-            @RequestParam @NotBlank(message = "Sort field must not be blank") String sortField) {
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction,
+            @RequestParam(defaultValue = "id") @NotBlank(message = "Sort field must not be blank") String sortField) {
         Sort sort = Sort.by(direction, sortField);
         PageRequest pageRequest = PageRequest.of(pageNumber, pageLength, sort);
         List<GetIdeaDTO> ideaDTOS = ideasService.getPage(pageRequest);
