@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -25,8 +26,8 @@ public class Idea {
 //    @JoinColumn(name = "user_id")
 //    private User user;
 
-    @OneToOne
-    private Comment comment;
+    @OneToMany
+    private List<Comment> comment;
 
     @Column
     private LocalDateTime created;
