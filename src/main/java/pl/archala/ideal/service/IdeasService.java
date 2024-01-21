@@ -26,17 +26,17 @@ public class IdeasService {
         if (ideaOptional.isEmpty()) {
             throw new EntityNotFoundException("Idea with id %d does not exist".formatted(id));
         }
-        return ideaMapper.toGetDTO(ideaOptional.get());
+        return new GetIdeaDTO(ideaOptional.get());
     }
 
     public GetIdeaDTO save(AddIdeaDTO ideaDTO) {
         Idea idea = ideaMapper.toEntity(ideaDTO);
         Idea saved = ideasRepository.save(idea);
-        return ideaMapper.toGetDTO(saved);
+        return new GetIdeaDTO(saved);
     }
 
     public List<GetIdeaDTO> getPage(PageRequest pageRequest) {
         Page<Idea> ideasPage = ideasRepository.findAll(pageRequest);
-        return ideasPage.map(ideaMapper::toGetDTO).getContent();
+        return ideasPage.map(GetIdeaDTO::new).getContent();
     }
 }
