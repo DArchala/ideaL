@@ -28,10 +28,10 @@ public class IdeasServiceImpl implements IdeasService {
         return new GetIdeaDTO(idea);
     }
 
-    public GetSimpleIdeaDTO save(AddIdeaDTO ideaDTO) {
+    public GetIdeaDTO save(AddIdeaDTO ideaDTO) {
         Idea idea = ideaMapper.toEntity(ideaDTO);
         Idea saved = ideasRepository.save(idea);
-        return new GetSimpleIdeaDTO(saved);
+        return new GetIdeaDTO(saved);
     }
 
     public List<GetSimpleIdeaDTO> getPage(PageRequest pageRequest) {

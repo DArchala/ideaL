@@ -6,6 +6,7 @@ import pl.archala.ideal.entity.Comment;
 
 import java.time.LocalDateTime;
 
+@SuppressWarnings("unused")
 @Component
 public class CommentMapper {
 

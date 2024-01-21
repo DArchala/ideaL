@@ -33,8 +33,8 @@ public class IdeasController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GetSimpleIdeaDTO> save(@Valid @RequestBody AddIdeaDTO ideaDTO) {
-        GetSimpleIdeaDTO savedIdeaDTO = ideasService.save(ideaDTO);
+    public ResponseEntity<GetIdeaDTO> save(@Valid @RequestBody AddIdeaDTO ideaDTO) {
+        GetIdeaDTO savedIdeaDTO = ideasService.save(ideaDTO);
         return ResponseEntity.status(201).body(savedIdeaDTO);
     }
 
