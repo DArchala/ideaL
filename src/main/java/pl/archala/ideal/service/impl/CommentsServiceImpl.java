@@ -3,6 +3,7 @@ package pl.archala.ideal.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.archala.ideal.dto.comment.AddCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.entity.Comment;
@@ -24,23 +25,36 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public GetCommentDTO findById(Long id) {
+        Comment comment = findCommentById(id);
+        return new GetCommentDTO(comment);
+    }
+
+    @Override
+    @Transactional
+    public GetCommentDTO save(AddCommentDTO addCommentDTO) {
+        Comment comment = commentMapper.toEntity(addCommentDTO);
+        Idea idea = findIdeaById(addCommentDTO.ideaId());
+
+        comment.setIdea(idea);
+        idea.getComment().add(comment);
+
+        return new GetCommentDTO(commentsRepository.save(comment));
+    }
+
+    private Idea findIdeaById(Long id) {
+        Optional<Idea> ideaOptional = ideasRepository.findById(id);
+        if (ideaOptional.isEmpty()) {
+            throw new EntityNotFoundException("Idea with id %d does not exist".formatted(id));
+        }
+        return ideaOptional.get();
+    }
+
+    private Comment findCommentById(Long id) {
         Optional<Comment> optionalComment = commentsRepository.findById(id);
         if (optionalComment.isEmpty()) {
             throw new EntityNotFoundException("Comment with id %d does not exist".formatted(id));
         }
-        return new GetCommentDTO(optionalComment.get());
-    }
-
-    @Override
-    public GetCommentDTO save(AddCommentDTO addCommentDTO) {
-        Comment comment = commentMapper.toEntity(addCommentDTO);
-        Optional<Idea> ideaOptional = ideasRepository.findById(addCommentDTO.ideaId());
-        if (ideaOptional.isEmpty()) {
-            throw new EntityNotFoundException("Idea with id %d does not exist".formatted(addCommentDTO.ideaId()));
-        }
-        comment.setIdea(ideaOptional.get());
-        Comment savedComment = commentsRepository.save(comment);
-        return new GetCommentDTO(savedComment);
+        return optionalComment.get();
     }
 
 }
