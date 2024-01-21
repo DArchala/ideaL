@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
-import pl.archala.ideal.service.IdeasService;
+import pl.archala.ideal.service.interfaces.IdeasService;
 
 import java.util.List;
 

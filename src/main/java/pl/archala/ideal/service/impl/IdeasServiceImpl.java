@@ -1,18 +1,21 @@
-package pl.archala.ideal.service;
+package pl.archala.ideal.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
 import pl.archala.ideal.entity.Idea;
 import pl.archala.ideal.mapper.IdeaMapper;
 import pl.archala.ideal.repository.IdeasRepository;
+import pl.archala.ideal.service.interfaces.IdeasService;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public class IdeasServiceImpl implements IdeasService {
 
