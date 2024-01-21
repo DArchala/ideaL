@@ -6,6 +6,10 @@ import pl.archala.ideal.entity.Comment;
 
 import java.time.LocalDateTime;
 
+/**
+ * Simple Comment dto, without any related entities data
+ */
+
 @Getter
 @AllArgsConstructor
 public class GetSimpleCommentDTO {

@@ -14,4 +14,6 @@ public interface IdeasService {
     GetSimpleIdeaDTO save(AddIdeaDTO ideaDTO);
 
     List<GetSimpleIdeaDTO> getPage(PageRequest pageRequest);
+
+    GetSimpleIdeaDTO deleteById(Long id);
 }

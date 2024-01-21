@@ -26,7 +26,7 @@ public class Idea {
 //    @JoinColumn(name = "user_id")
 //    private User user;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comment;
 
     @Column

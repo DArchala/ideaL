@@ -24,11 +24,8 @@ public class IdeasServiceImpl implements IdeasService {
     private final IdeaMapper ideaMapper;
 
     public GetIdeaDTO getById(Long id) {
-        Optional<Idea> ideaOptional = ideasRepository.findById(id);
-        if (ideaOptional.isEmpty()) {
-            throw new EntityNotFoundException("Idea with id %d does not exist".formatted(id));
-        }
-        return new GetIdeaDTO(ideaOptional.get());
+        Idea idea = findIdeaById(id);
+        return new GetIdeaDTO(idea);
     }
 
     public GetSimpleIdeaDTO save(AddIdeaDTO ideaDTO) {
@@ -40,5 +37,20 @@ public class IdeasServiceImpl implements IdeasService {
     public List<GetSimpleIdeaDTO> getPage(PageRequest pageRequest) {
         Page<Idea> ideasPage = ideasRepository.findAll(pageRequest);
         return ideasPage.map(GetSimpleIdeaDTO::new).getContent();
+    }
+
+    @Override
+    public GetSimpleIdeaDTO deleteById(Long id) {
+        Idea idea = findIdeaById(id);
+        ideasRepository.delete(idea);
+        return new GetSimpleIdeaDTO(idea);
+    }
+
+    private Idea findIdeaById(Long id) {
+        Optional<Idea> ideaOptional = ideasRepository.findById(id);
+        if (ideaOptional.isEmpty()) {
+            throw new EntityNotFoundException("Idea with id %d does not exist".formatted(id));
+        }
+        return ideaOptional.get();
     }
 }

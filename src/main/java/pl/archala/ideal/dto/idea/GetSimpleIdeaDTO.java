@@ -6,6 +6,10 @@ import pl.archala.ideal.entity.Idea;
 
 import java.time.LocalDateTime;
 
+/**
+ * Simple Idea dto, without any related entities data
+ */
+
 @Getter
 @AllArgsConstructor
 public class GetSimpleIdeaDTO {

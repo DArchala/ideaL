@@ -29,7 +29,7 @@ public class IdeasController {
     @GetMapping
     public ResponseEntity<GetIdeaDTO> getById(@RequestParam Long id) {
         GetIdeaDTO ideaDTO = ideasService.getById(id);
-        return ResponseEntity.ok().body(ideaDTO);
+        return ResponseEntity.ok(ideaDTO);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -48,7 +48,13 @@ public class IdeasController {
         Sort sort = Sort.by(direction, sortField);
         PageRequest pageRequest = PageRequest.of(pageNumber, pageLength, sort);
         List<GetSimpleIdeaDTO> ideaDTOS = ideasService.getPage(pageRequest);
-        return ResponseEntity.ok().body(ideaDTOS);
+        return ResponseEntity.ok(ideaDTOS);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<GetSimpleIdeaDTO> delete(@RequestParam Long id) {
+        GetSimpleIdeaDTO dto = ideasService.deleteById(id);
+        return ResponseEntity.ok(dto);
     }
 
 }
