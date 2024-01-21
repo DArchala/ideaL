@@ -26,10 +26,13 @@ public class Idea {
 //    @JoinColumn(name = "user_id")
 //    private User user;
 
+    @Column
+    private LocalDateTime created;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
 
-    @Column
-    private LocalDateTime created;
+    @OneToMany
+    private List<Realization> realizations;
 
 }
