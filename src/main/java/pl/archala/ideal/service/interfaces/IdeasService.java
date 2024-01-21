@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IdeasService {
 
-    GetIdeaDTO getById(Long id);
+    GetIdeaDTO findById(Long id);
 
     GetSimpleIdeaDTO save(AddIdeaDTO ideaDTO);
 

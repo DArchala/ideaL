@@ -28,7 +28,7 @@ public class IdeasController {
 
     @GetMapping
     public ResponseEntity<GetIdeaDTO> getById(@RequestParam Long id) {
-        GetIdeaDTO ideaDTO = ideasService.getById(id);
+        GetIdeaDTO ideaDTO = ideasService.findById(id);
         return ResponseEntity.ok(ideaDTO);
     }
 

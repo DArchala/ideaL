@@ -23,7 +23,7 @@ public class IdeasServiceImpl implements IdeasService {
     private final IdeasRepository ideasRepository;
     private final IdeaMapper ideaMapper;
 
-    public GetIdeaDTO getById(Long id) {
+    public GetIdeaDTO findById(Long id) {
         Idea idea = findIdeaById(id);
         return new GetIdeaDTO(idea);
     }
