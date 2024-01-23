@@ -1,5 +1,6 @@
 package pl.archala.ideal.dto.idea;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import pl.archala.ideal.entity.Comment;
@@ -17,7 +18,9 @@ public class GetIdeaDTO {
     private final String name;
     private final String content;
     private final LocalDateTime created;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Long> commentsIds;
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Long> realizationsIds;
 
     public GetIdeaDTO(Idea idea) {

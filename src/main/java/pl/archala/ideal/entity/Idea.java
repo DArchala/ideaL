@@ -21,10 +21,6 @@ public class Idea {
 
     @Column
     private String content;
-//TODO
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
 
     @Column
     private LocalDateTime created;

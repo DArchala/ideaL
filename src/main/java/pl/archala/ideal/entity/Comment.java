@@ -17,10 +17,9 @@ public class Comment {
 
     @Column
     private String content;
-//TODO
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+
+    @Column
+    private LocalDateTime created;
 
     @ManyToOne
     @JoinColumn(name = "idea_id")
@@ -37,7 +36,4 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
     private Comment parentComment;
-
-    @Column
-    private LocalDateTime created;
 }
