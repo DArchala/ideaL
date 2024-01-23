@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
-import pl.archala.ideal.dto.idea.GetSimpleIdeaDTO;
 import pl.archala.ideal.entity.Idea;
 import pl.archala.ideal.mapper.IdeaMapper;
 import pl.archala.ideal.repository.IdeasRepository;
@@ -34,16 +33,16 @@ public class IdeasServiceImpl implements IdeasService {
         return new GetIdeaDTO(saved);
     }
 
-    public List<GetSimpleIdeaDTO> getPage(PageRequest pageRequest) {
+    public List<GetIdeaDTO> getPage(PageRequest pageRequest) {
         Page<Idea> ideasPage = ideasRepository.findAll(pageRequest);
-        return ideasPage.map(GetSimpleIdeaDTO::new).getContent();
+        return ideasPage.map(GetIdeaDTO::new).getContent();
     }
 
     @Override
-    public GetSimpleIdeaDTO deleteById(Long id) {
+    public GetIdeaDTO deleteById(Long id) {
         Idea idea = findIdeaById(id);
         ideasRepository.delete(idea);
-        return new GetSimpleIdeaDTO(idea);
+        return new GetIdeaDTO(idea);
     }
 
     private Idea findIdeaById(Long id) {

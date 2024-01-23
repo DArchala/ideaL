@@ -2,9 +2,9 @@ package pl.archala.ideal.dto.idea;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.realization.GetSimpleRealizationDTO;
+import pl.archala.ideal.entity.Comment;
 import pl.archala.ideal.entity.Idea;
+import pl.archala.ideal.entity.Realization;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,15 +17,20 @@ public class GetIdeaDTO {
     private final String name;
     private final String content;
     private final LocalDateTime created;
-    private final List<GetCommentDTO> comments;
-    private final List<GetSimpleRealizationDTO> realizations;
+    private List<Long> commentsIds;
+    private List<Long> realizationsIds;
 
     public GetIdeaDTO(Idea idea) {
         this.id = idea.getId();
         this.name = idea.getName();
         this.content = idea.getContent();
         this.created = idea.getCreated();
-        this.comments = idea.getComments().stream().map(GetCommentDTO::new).toList();
-        this.realizations = idea.getRealizations().stream().map(GetSimpleRealizationDTO::new).toList();
+        if (idea.getComments() != null) {
+            this.commentsIds = idea.getComments().stream().map(Comment::getId).toList();
+        }
+        if (idea.getRealizations() != null) {
+            this.realizationsIds = idea.getRealizations().stream().map(Realization::getId).toList();
+        }
+
     }
 }
