@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.archala.ideal.dto.comment.AddCommentDTO;
+import pl.archala.ideal.dto.comment.AddIdeaCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.comment.GetSimpleCommentDTO;
 import pl.archala.ideal.service.interfaces.CommentsService;
@@ -25,8 +25,8 @@ public class CommentsController {
     }
 
     @PostMapping
-    public ResponseEntity<GetCommentDTO> save(@Valid @RequestBody AddCommentDTO addCommentDTO) {
-        GetCommentDTO getCommentDTO = commentsService.save(addCommentDTO);
+    public ResponseEntity<GetCommentDTO> save(@Valid @RequestBody AddIdeaCommentDTO addIdeaCommentDTO) {
+        GetCommentDTO getCommentDTO = commentsService.save(addIdeaCommentDTO);
         return ResponseEntity.status(201).body(getCommentDTO);
     }
 

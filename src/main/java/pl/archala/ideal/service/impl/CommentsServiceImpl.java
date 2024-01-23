@@ -4,7 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.archala.ideal.dto.comment.AddCommentDTO;
+import pl.archala.ideal.dto.comment.AddIdeaCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.comment.GetSimpleCommentDTO;
 import pl.archala.ideal.entity.Comment;
@@ -32,9 +32,9 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     @Transactional
-    public GetCommentDTO save(AddCommentDTO addCommentDTO) {
-        Comment comment = commentMapper.toEntity(addCommentDTO);
-        Idea idea = findIdeaById(addCommentDTO.ideaId());
+    public GetCommentDTO save(AddIdeaCommentDTO addIdeaCommentDTO) {
+        Comment comment = commentMapper.toEntity(addIdeaCommentDTO);
+        Idea idea = findIdeaById(addIdeaCommentDTO.ideaId());
 
         comment.setIdea(idea);
         idea.getComments().add(comment);
