@@ -30,7 +30,6 @@ public class Comment {
     private Realization realization;
 
     @OneToMany
-    @JoinColumn(name = "comment_id")
     private List<Comment> comments;
 
     @ManyToOne
