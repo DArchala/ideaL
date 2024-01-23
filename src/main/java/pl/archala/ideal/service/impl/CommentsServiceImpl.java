@@ -4,9 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.archala.ideal.dto.comment.AddCommentCommentDTO;
 import pl.archala.ideal.dto.comment.AddIdeaCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.comment.GetSimpleCommentDTO;
 import pl.archala.ideal.entity.Comment;
 import pl.archala.ideal.entity.Idea;
 import pl.archala.ideal.mapper.CommentMapper;
@@ -44,14 +44,26 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     @Transactional
-    public GetSimpleCommentDTO deleteById(Long id) {
+    public GetCommentDTO save(AddCommentCommentDTO addCommentCommentDTO) {
+        Comment newComment = commentMapper.toEntity(addCommentCommentDTO);
+        Comment parentComment = findCommentById(addCommentCommentDTO.parentCommentId());
+
+        newComment.setParentComment(parentComment);
+        parentComment.getComments().add(newComment);
+
+        return new GetCommentDTO(commentsRepository.save(newComment));
+    }
+
+    @Override
+    @Transactional
+    public GetCommentDTO deleteById(Long id) {
         Comment comment = findCommentById(id);
         Idea idea = findIdeaById(comment.getIdea().getId());
 
         idea.getComments().remove(comment);
         commentsRepository.delete(comment);
 
-        return new GetSimpleCommentDTO(comment);
+        return new GetCommentDTO(comment);
     }
 
     private Idea findIdeaById(Long id) {

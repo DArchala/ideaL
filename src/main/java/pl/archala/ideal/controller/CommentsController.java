@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pl.archala.ideal.dto.comment.AddCommentCommentDTO;
 import pl.archala.ideal.dto.comment.AddIdeaCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.comment.GetSimpleCommentDTO;
 import pl.archala.ideal.service.interfaces.CommentsService;
 
 @RestController
@@ -24,15 +24,21 @@ public class CommentsController {
         return ResponseEntity.ok(getCommentDTO);
     }
 
-    @PostMapping
-    public ResponseEntity<GetCommentDTO> save(@Valid @RequestBody AddIdeaCommentDTO addIdeaCommentDTO) {
+    @PostMapping("/idea")
+    public ResponseEntity<GetCommentDTO> saveIdeaComment(@Valid @RequestBody AddIdeaCommentDTO addIdeaCommentDTO) {
+        GetCommentDTO getCommentDTO = commentsService.save(addIdeaCommentDTO);
+        return ResponseEntity.status(201).body(getCommentDTO);
+    }
+
+    @PostMapping("/comment")
+    public ResponseEntity<GetCommentDTO> saveCommentComment(@Valid @RequestBody AddCommentCommentDTO addIdeaCommentDTO) {
         GetCommentDTO getCommentDTO = commentsService.save(addIdeaCommentDTO);
         return ResponseEntity.status(201).body(getCommentDTO);
     }
 
     @DeleteMapping
-    public ResponseEntity<GetSimpleCommentDTO> delete(@RequestParam Long id) {
-        GetSimpleCommentDTO dto = commentsService.deleteById(id);
+    public ResponseEntity<GetCommentDTO> delete(@RequestParam Long id) {
+        GetCommentDTO dto = commentsService.deleteById(id);
         return ResponseEntity.ok(dto);
     }
 }
