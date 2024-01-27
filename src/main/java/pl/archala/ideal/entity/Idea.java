@@ -2,6 +2,7 @@ package pl.archala.ideal.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import pl.archala.ideal.enums.IdeaCategory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,10 +18,16 @@ public class Idea {
     private Long id;
 
     @Column
+    private String title;
+
+    @Column
     private String name;
 
     @Column
     private String content;
+
+    @Column
+    private IdeaCategory category;
 
     @Column
     private LocalDateTime created;

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -17,6 +18,9 @@ public class Realization {
     @ManyToOne
     @JoinColumn(name = "idea_id")
     private Idea idea;
+
+    @OneToMany
+    private List<Comment> comments;
 
     @Column
     private String content;

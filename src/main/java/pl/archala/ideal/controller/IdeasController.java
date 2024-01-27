@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
+import pl.archala.ideal.enums.IdeaCategory;
 import pl.archala.ideal.service.interfaces.IdeasService;
 
 import java.util.List;
@@ -29,6 +30,11 @@ public class IdeasController {
     public ResponseEntity<GetIdeaDTO> getById(@RequestParam Long id) {
         GetIdeaDTO ideaDTO = ideasService.findById(id);
         return ResponseEntity.ok(ideaDTO);
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<IdeaCategory>> getAvailableIdeaCategories() {
+        return ResponseEntity.ok(List.of(IdeaCategory.values()));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
