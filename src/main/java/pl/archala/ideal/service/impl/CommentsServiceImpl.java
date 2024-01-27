@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.archala.ideal.dto.comment.AddCommentCommentDTO;
 import pl.archala.ideal.dto.comment.AddIdeaCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
+import pl.archala.ideal.dto.comment.PatchCommentDTO;
 import pl.archala.ideal.entity.Comment;
 import pl.archala.ideal.entity.Idea;
 import pl.archala.ideal.mapper.CommentMapper;
@@ -64,6 +65,13 @@ public class CommentsServiceImpl implements CommentsService {
         commentsRepository.delete(comment);
 
         return new GetCommentDTO(comment);
+    }
+
+    @Override
+    public GetCommentDTO updateContent(PatchCommentDTO patchCommentDTO) {
+        Comment comment = findCommentById(patchCommentDTO.id());
+        comment.setContent(patchCommentDTO.content());
+        return new GetCommentDTO(commentsRepository.save(comment));
     }
 
     private Idea findIdeaById(Long id) {

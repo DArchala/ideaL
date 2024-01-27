@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.archala.ideal.dto.comment.AddCommentCommentDTO;
 import pl.archala.ideal.dto.comment.AddIdeaCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
+import pl.archala.ideal.dto.comment.PatchCommentDTO;
 import pl.archala.ideal.service.interfaces.CommentsService;
 
 @RestController
@@ -34,6 +35,12 @@ public class CommentsController {
     public ResponseEntity<GetCommentDTO> saveCommentComment(@Valid @RequestBody AddCommentCommentDTO addIdeaCommentDTO) {
         GetCommentDTO getCommentDTO = commentsService.save(addIdeaCommentDTO);
         return ResponseEntity.status(201).body(getCommentDTO);
+    }
+
+    @PatchMapping
+    public ResponseEntity<GetCommentDTO> updateCommentContent(@Valid @RequestBody PatchCommentDTO patchCommentDTO) {
+        GetCommentDTO getCommentDTO = commentsService.updateContent(patchCommentDTO);
+        return ResponseEntity.ok(getCommentDTO);
     }
 
     @DeleteMapping
