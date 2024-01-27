@@ -37,6 +37,12 @@ public class IdeasController {
         return ResponseEntity.ok(List.of(IdeaCategory.values()));
     }
 
+    @GetMapping("/random")
+    public ResponseEntity<GetIdeaDTO> getRandomIdea(@RequestParam(required = false) IdeaCategory category) {
+        GetIdeaDTO getIdeaDTO = ideasService.getRandom(category);
+        return ResponseEntity.ok(getIdeaDTO);
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GetIdeaDTO> save(@Valid @RequestBody AddIdeaDTO ideaDTO) {
         GetIdeaDTO savedIdeaDTO = ideasService.save(ideaDTO);
