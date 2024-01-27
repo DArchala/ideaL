@@ -15,7 +15,7 @@ import java.util.List;
 public class GetIdeaDTO {
 
     private final Long id;
-    private final String name;
+    private final String title;
     private final String content;
     private final LocalDateTime created;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -25,7 +25,7 @@ public class GetIdeaDTO {
 
     public GetIdeaDTO(Idea idea) {
         this.id = idea.getId();
-        this.name = idea.getName();
+        this.title = idea.getTitle();
         this.content = idea.getContent();
         this.created = idea.getCreated();
         if (idea.getComments() != null) {

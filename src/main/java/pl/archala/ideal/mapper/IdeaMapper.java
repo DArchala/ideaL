@@ -12,7 +12,7 @@ public class IdeaMapper {
 
     public Idea toEntity(AddIdeaDTO ideaDTO) {
         Idea idea = new Idea();
-        idea.setName(ideaDTO.name());
+        idea.setTitle(ideaDTO.title());
         idea.setContent(ideaDTO.content());
         idea.setCreated(LocalDateTime.now());
         return idea;

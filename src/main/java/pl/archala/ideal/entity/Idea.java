@@ -21,9 +21,6 @@ public class Idea {
     private String title;
 
     @Column
-    private String name;
-
-    @Column
     private String content;
 
     @Column
