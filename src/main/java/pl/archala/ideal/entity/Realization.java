@@ -19,7 +19,7 @@ public class Realization {
     @JoinColumn(name = "idea_id")
     private Idea idea;
 
-    @OneToMany
+    @OneToMany(mappedBy = "realization")
     private List<Comment> comments;
 
     @Column

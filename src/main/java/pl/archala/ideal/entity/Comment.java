@@ -29,7 +29,7 @@ public class Comment {
     @JoinColumn(name = "realization_id")
     private Realization realization;
 
-    @OneToMany
+    @OneToMany(mappedBy = "parentComment")
     private List<Comment> comments;
 
     @ManyToOne

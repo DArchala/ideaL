@@ -29,10 +29,10 @@ public class Idea {
     @Column
     private LocalDateTime created;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "idea")
     private List<Comment> comments;
 
-    @OneToMany
+    @OneToMany(mappedBy = "idea")
     private List<Realization> realizations;
 
 }
