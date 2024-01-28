@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Entity
@@ -28,4 +29,7 @@ public class Realization {
     @Column
     private LocalDateTime created;
 
+    public Optional<List<Comment>> getOptionalComments() {
+        return Optional.ofNullable(comments);
+    }
 }
