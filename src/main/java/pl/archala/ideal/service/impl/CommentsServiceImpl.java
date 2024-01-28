@@ -59,9 +59,7 @@ public class CommentsServiceImpl implements CommentsService {
     @Transactional
     public GetCommentDTO deleteById(Long id) {
         Comment comment = findCommentById(id);
-
         commentsRepository.delete(comment);
-
         return new GetCommentDTO(comment);
     }
 

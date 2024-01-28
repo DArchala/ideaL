@@ -28,12 +28,7 @@ public class GetIdeaDTO {
         this.title = idea.getTitle();
         this.content = idea.getContent();
         this.created = idea.getCreated();
-        if (idea.getComments() != null) {
-            this.commentsIds = idea.getComments().stream().map(Comment::getId).toList();
-        }
-        if (idea.getRealizations() != null) {
-            this.realizationsIds = idea.getRealizations().stream().map(Realization::getId).toList();
-        }
-
+        idea.getOptionalComments().ifPresent(c -> this.commentsIds = c.stream().map(Comment::getId).toList());
+        idea.getOptionalRealizations().ifPresent(r -> this.realizationsIds = r.stream().map(Realization::getId).toList());
     }
 }

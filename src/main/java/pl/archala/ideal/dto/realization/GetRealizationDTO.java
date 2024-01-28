@@ -25,8 +25,6 @@ public class GetRealizationDTO {
         this.content = realization.getContent();
         this.created = realization.getCreated();
         this.ideaId = realization.getIdea().getId();
-        if (realization.getComments() != null) {
-            this.commentsId = realization.getComments().stream().map(Comment::getId).toList();
-        }
+        realization.getOptionalComments().ifPresent(c -> this.commentsId = c.stream().map(Comment::getId).toList());
     }
 }

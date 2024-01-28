@@ -28,19 +28,10 @@ public class GetCommentDTO {
         this.id = comment.getId();
         this.content = comment.getContent();
         this.created = comment.getCreated();
-        if (comment.getIdea() != null) {
-            this.ideaId = comment.getIdea().getId();
-        }
-        if (comment.getParentComment() != null) {
-            this.parentCommentId = comment.getParentComment().getId();
-        }
-        if (comment.getRealization() != null) {
-            this.realizationId = comment.getRealization().getId();
-        }
-        if (comment.getComments() != null) {
-            this.commentsIds = comment.getComments().stream().map(Comment::getId).toList();
-        }
-
+        comment.getIdea().ifPresent(i -> this.ideaId = i.getId());
+        comment.getOptionalComments().ifPresent(c -> this.commentsIds = c.stream().map(Comment::getId).toList());
+        comment.getRealization().ifPresent(r -> this.realizationId = r.getId());
+        comment.getParentComment().ifPresent(pc -> this.parentCommentId = comment.getId());
     }
 
 }
