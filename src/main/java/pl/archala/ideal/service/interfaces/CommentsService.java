@@ -1,9 +1,6 @@
 package pl.archala.ideal.service.interfaces;
 
-import pl.archala.ideal.dto.comment.AddCommentCommentDTO;
-import pl.archala.ideal.dto.comment.AddIdeaCommentDTO;
-import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.comment.PatchCommentDTO;
+import pl.archala.ideal.dto.comment.*;
 
 public interface CommentsService {
 
@@ -12,6 +9,8 @@ public interface CommentsService {
     GetCommentDTO save(AddIdeaCommentDTO addIdeaCommentDTO);
 
     GetCommentDTO save(AddCommentCommentDTO addIdeaCommentDTO);
+
+    GetCommentDTO save(AddRealizationCommentDTO addRealizationCommentDTO);
 
     GetCommentDTO deleteById(Long id);
 
