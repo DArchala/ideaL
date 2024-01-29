@@ -32,7 +32,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(value = EntityNotFoundException.class)
     protected ResponseEntity<ErrorResponse> handlePropertyReferenceException(EntityNotFoundException e) {
         List<String> reasons = List.of(e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(reasons, HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse = new ErrorResponse(reasons, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
     }
 
