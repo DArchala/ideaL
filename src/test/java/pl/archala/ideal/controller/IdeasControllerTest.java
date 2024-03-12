@@ -21,7 +21,7 @@ class IdeasControllerTest extends PostgresqlContainer {
 
     @SneakyThrows
     @Test
-    void shouldReturnAddedIdeaAndFindItInNextGetRequest() {
+    void shouldReturnAddedIdeaAndFindItUsingGetRequest() {
         //given
         String simpleTitle = "simple-title";
         String simpleContent = "simple-content";
@@ -36,14 +36,27 @@ class IdeasControllerTest extends PostgresqlContainer {
 
         webTestClient.get().uri("/api/idea/1").exchange()
                 .expectStatus().isOk()
-                .expectBody(GetIdeaDTO.class);
+                .expectBody(GetIdeaDTO.class)
+                .isEqualTo(actualGetIdeaDTO);
+
+        webTestClient.get().uri("/api/idea/page").exchange()
+                .expectStatus().isOk()
+                .expectBodyList(GetIdeaDTO.class)
+                .hasSize(1)
+                .contains(actualGetIdeaDTO);
+
+        webTestClient.get().uri("/api/idea/random").exchange()
+                .expectStatus().isOk()
+                .expectBody(GetIdeaDTO.class)
+                .isEqualTo(actualGetIdeaDTO);
 
         //then
-        assertEquals(1L, actualGetIdeaDTO.getId());
-        assertEquals(simpleTitle, actualGetIdeaDTO.getTitle());
-        assertEquals(simpleContent, actualGetIdeaDTO.getContent());
-        assertNull(actualGetIdeaDTO.getRealizationsIds());
-        assertNull(actualGetIdeaDTO.getCommentsIds());
+        assertEquals(1L, actualGetIdeaDTO.id());
+        assertEquals(simpleTitle, actualGetIdeaDTO.title());
+        assertEquals(simpleContent, actualGetIdeaDTO.content());
+        assertNull(actualGetIdeaDTO.realizationsIds());
+        assertNull(actualGetIdeaDTO.commentsIds());
+
     }
 
 }

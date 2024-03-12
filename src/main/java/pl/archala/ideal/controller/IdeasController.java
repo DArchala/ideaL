@@ -27,20 +27,18 @@ public class IdeasController {
     private final IdeasService ideasService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<GetIdeaDTO> getById(@PathVariable Long id) {
-        GetIdeaDTO ideaDTO = ideasService.findById(id);
-        return ResponseEntity.ok(ideaDTO);
+    public GetIdeaDTO getById(@PathVariable Long id) {
+        return ideasService.findById(id);
     }
 
     @GetMapping("/categories")
-    public ResponseEntity<List<IdeaCategory>> getAvailableIdeaCategories() {
-        return ResponseEntity.ok(List.of(IdeaCategory.values()));
+    public List<IdeaCategory> getAvailableIdeaCategories() {
+        return List.of(IdeaCategory.values());
     }
 
     @GetMapping("/random")
-    public ResponseEntity<GetIdeaDTO> getRandomIdea(@RequestParam(required = false) IdeaCategory category) {
-        GetIdeaDTO getIdeaDTO = ideasService.getRandom(category);
-        return ResponseEntity.ok(getIdeaDTO);
+    public GetIdeaDTO getRandomIdea(@RequestParam(required = false) IdeaCategory category) {
+        return ideasService.getRandom(category);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -50,7 +48,7 @@ public class IdeasController {
     }
 
     @GetMapping("/page")
-    public ResponseEntity<List<GetIdeaDTO>> get(
+    public List<GetIdeaDTO> get(
             @RequestParam(defaultValue = "0") @Min(message = "Page number must be equal or greater than 0", value = 0) int pageNumber,
             @RequestParam(defaultValue = "20") @Min(value = 1, message = "Page length must be equal or greater than 1")
             @Max(value = 200, message = "Page length must be equal or less than 200") int pageLength,
@@ -58,14 +56,12 @@ public class IdeasController {
             @RequestParam(defaultValue = "id") @NotBlank(message = "Sort field must not be blank") String sortField) {
         Sort sort = Sort.by(direction, sortField);
         PageRequest pageRequest = PageRequest.of(pageNumber, pageLength, sort);
-        List<GetIdeaDTO> ideaDTOS = ideasService.getPage(pageRequest);
-        return ResponseEntity.ok(ideaDTOS);
+        return ideasService.getPage(pageRequest);
     }
 
     @DeleteMapping
-    public ResponseEntity<GetIdeaDTO> delete(@RequestParam Long id) {
-        GetIdeaDTO dto = ideasService.deleteById(id);
-        return ResponseEntity.ok(dto);
+    public GetIdeaDTO delete(@RequestParam Long id) {
+        return ideasService.deleteById(id);
     }
 
 }

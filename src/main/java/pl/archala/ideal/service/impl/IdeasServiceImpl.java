@@ -27,19 +27,18 @@ public class IdeasServiceImpl implements IdeasService {
     private final Random random = new Random();
 
     public GetIdeaDTO findById(Long id) {
-        Idea idea = findIdeaById(id);
-        return new GetIdeaDTO(idea);
+        return ideaMapper.toDto(findIdeaById(id));
     }
 
     public GetIdeaDTO save(AddIdeaDTO ideaDTO) {
         Idea idea = ideaMapper.toEntity(ideaDTO);
         Idea saved = ideasRepository.save(idea);
-        return new GetIdeaDTO(saved);
+        return ideaMapper.toDto(saved);
     }
 
     public List<GetIdeaDTO> getPage(PageRequest pageRequest) {
         Page<Idea> ideasPage = ideasRepository.findAll(pageRequest);
-        return ideasPage.map(GetIdeaDTO::new).getContent();
+        return ideasPage.map(ideaMapper::toDto).getContent();
     }
 
     @Override
@@ -47,7 +46,7 @@ public class IdeasServiceImpl implements IdeasService {
     public GetIdeaDTO deleteById(Long id) {
         Idea idea = findIdeaById(id);
         ideasRepository.delete(idea);
-        return new GetIdeaDTO(idea);
+        return ideaMapper.toDto(idea);
     }
 
     @Override
@@ -65,7 +64,7 @@ public class IdeasServiceImpl implements IdeasService {
             ideaOptional = ideasRepository.findById(randomId);
         }
 
-        return new GetIdeaDTO(ideaOptional.get());
+        return ideaMapper.toDto(ideaOptional.get());
     }
 
     private Idea findIdeaById(Long id) {

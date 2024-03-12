@@ -1,34 +1,13 @@
 package pl.archala.ideal.dto.idea;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import pl.archala.ideal.entity.Comment;
-import pl.archala.ideal.entity.Idea;
-import pl.archala.ideal.entity.Realization;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@AllArgsConstructor
-public class GetIdeaDTO {
+public record GetIdeaDTO(Long id, String title, String content, @EqualsAndHashCode.Include() LocalDateTime created,
+                         @JsonInclude(JsonInclude.Include.NON_EMPTY) List<Long> commentsIds,
+                         @JsonInclude(JsonInclude.Include.NON_EMPTY) List<Long> realizationsIds) {
 
-    private final Long id;
-    private final String title;
-    private final String content;
-    private final LocalDateTime created;
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<Long> commentsIds;
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private List<Long> realizationsIds;
-
-    public GetIdeaDTO(Idea idea) {
-        this.id = idea.getId();
-        this.title = idea.getTitle();
-        this.content = idea.getContent();
-        this.created = idea.getCreated();
-        idea.getOptionalComments().ifPresent(c -> this.commentsIds = c.stream().map(Comment::getId).toList());
-        idea.getOptionalRealizations().ifPresent(r -> this.realizationsIds = r.stream().map(Realization::getId).toList());
-    }
 }
