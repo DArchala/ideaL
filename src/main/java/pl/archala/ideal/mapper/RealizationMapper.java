@@ -6,7 +6,6 @@ import pl.archala.ideal.entity.Realization;
 
 import java.time.LocalDateTime;
 
-@SuppressWarnings("unused")
 @Component
 public class RealizationMapper {
 
