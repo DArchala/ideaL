@@ -14,7 +14,7 @@ public class IdeaMapper {
         Idea idea = new Idea();
         idea.setTitle(ideaDTO.title());
         idea.setContent(ideaDTO.content());
-        idea.setCreated(LocalDateTime.now());
+        idea.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         return idea;
     }
 }

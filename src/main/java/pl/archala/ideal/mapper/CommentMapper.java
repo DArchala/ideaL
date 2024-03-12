@@ -7,6 +7,7 @@ import pl.archala.ideal.dto.comment.AddRealizationCommentDTO;
 import pl.archala.ideal.entity.Comment;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @SuppressWarnings("unused")
 @Component
@@ -15,21 +16,21 @@ public class CommentMapper {
     public Comment toEntity(AddIdeaCommentDTO commentDTO) {
         Comment comment = new Comment();
         comment.setContent(commentDTO.content());
-        comment.setCreated(LocalDateTime.now());
+        comment.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         return comment;
     }
 
     public Comment toEntity(AddCommentCommentDTO commentDTO) {
         Comment comment = new Comment();
         comment.setContent(commentDTO.content());
-        comment.setCreated(LocalDateTime.now());
+        comment.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         return comment;
     }
 
     public Comment toEntity(AddRealizationCommentDTO addRealizationCommentDTO) {
         Comment comment = new Comment();
         comment.setContent(addRealizationCommentDTO.content());
-        comment.setCreated(LocalDateTime.now());
+        comment.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         return comment;
     }
 }

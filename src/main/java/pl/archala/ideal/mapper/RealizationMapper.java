@@ -13,7 +13,7 @@ public class RealizationMapper {
     public Realization toEntity(AddRealizationDTO realizationDTO) {
         Realization realization = new Realization();
         realization.setContent(realizationDTO.content());
-        realization.setCreated(LocalDateTime.now());
+        realization.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         return realization;
     }
 }

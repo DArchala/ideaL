@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Getter
@@ -22,7 +23,7 @@ public class ErrorResponse {
     private HttpStatus status;
 
     public ErrorResponse(List<String> reasons, HttpStatus status) {
-        this.occurred = LocalDateTime.now();
+        this.occurred = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
         this.reasons = reasons;
         this.status = status;
     }
