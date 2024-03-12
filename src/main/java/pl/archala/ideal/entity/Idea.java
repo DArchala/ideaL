@@ -18,16 +18,12 @@ public class Idea {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     private String title;
 
-    @Column
     private String content;
 
-    @Column
     private IdeaCategory category;
 
-    @Column
     private LocalDateTime created;
 
     @OneToMany(mappedBy = "idea", cascade = CascadeType.ALL)

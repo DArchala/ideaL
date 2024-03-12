@@ -23,10 +23,8 @@ public class Realization {
     @OneToMany(mappedBy = "realization")
     private List<Comment> comments;
 
-    @Column
     private String content;
 
-    @Column
     private LocalDateTime created;
 
     public Optional<List<Comment>> getOptionalComments() {
