@@ -14,9 +14,5 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String name;
-//TODO
-//    @OneToMany
-//    private List<Idea> ideas;
-//    @OneToMany
-//    private List<Comment> comments;
+
 }

@@ -16,10 +16,8 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
     private String content;
 
-    @Column
     private LocalDateTime created;
 
     @ManyToOne
