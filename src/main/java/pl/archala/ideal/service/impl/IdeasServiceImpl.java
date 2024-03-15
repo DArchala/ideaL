@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
 import pl.archala.ideal.entity.Idea;
@@ -42,7 +41,6 @@ public class IdeasServiceImpl implements IdeasService {
     }
 
     @Override
-    @Transactional
     public GetIdeaDTO deleteById(Long id) {
         Idea idea = findIdeaById(id);
         ideasRepository.delete(idea);

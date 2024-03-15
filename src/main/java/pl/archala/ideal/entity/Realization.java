@@ -20,7 +20,7 @@ public class Realization {
     @JoinColumn(name = "idea_id")
     private Idea idea;
 
-    @OneToMany(mappedBy = "realization")
+    @OneToMany
     private List<Comment> comments;
 
     private String content;

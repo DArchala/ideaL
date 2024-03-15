@@ -43,8 +43,7 @@ public class IdeasController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GetIdeaDTO> save(@Valid @RequestBody AddIdeaDTO ideaDTO) {
-        GetIdeaDTO savedIdeaDTO = ideasService.save(ideaDTO);
-        return ResponseEntity.status(201).body(savedIdeaDTO);
+        return ResponseEntity.status(201).body(ideasService.save(ideaDTO));
     }
 
     @GetMapping("/page")

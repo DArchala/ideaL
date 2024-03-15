@@ -27,8 +27,7 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public GetCommentDTO findById(Long id) {
-        Comment comment = findCommentById(id);
-        return new GetCommentDTO(comment);
+        return commentMapper.toGetDto(findCommentById(id));
     }
 
     @Override
@@ -37,10 +36,9 @@ public class CommentsServiceImpl implements CommentsService {
         Comment comment = commentMapper.toEntity(addIdeaCommentDTO);
         Idea idea = findIdeaById(addIdeaCommentDTO.ideaId());
 
-        comment.setIdea(idea);
         idea.getComments().add(comment);
 
-        return new GetCommentDTO(commentsRepository.save(comment));
+        return commentMapper.toGetDto(commentsRepository.save(comment));
     }
 
     @Override
@@ -52,7 +50,7 @@ public class CommentsServiceImpl implements CommentsService {
         newComment.setParentComment(parentComment);
         parentComment.getComments().add(newComment);
 
-        return new GetCommentDTO(commentsRepository.save(newComment));
+        return commentMapper.toGetDto(commentsRepository.save(newComment));
     }
 
     @Override
@@ -60,25 +58,23 @@ public class CommentsServiceImpl implements CommentsService {
         Comment newComment = commentMapper.toEntity(addRealizationCommentDTO);
         Realization realization = findRealizationById(addRealizationCommentDTO.realizationId());
 
-        newComment.setRealization(realization);
         realization.getComments().add(newComment);
 
-        return new GetCommentDTO(commentsRepository.save(newComment));
+        return commentMapper.toGetDto(commentsRepository.save(newComment));
     }
 
     @Override
-    @Transactional
     public GetCommentDTO deleteById(Long id) {
         Comment comment = findCommentById(id);
         commentsRepository.delete(comment);
-        return new GetCommentDTO(comment);
+        return commentMapper.toGetDto(comment);
     }
 
     @Override
     public GetCommentDTO updateContent(PatchCommentDTO patchCommentDTO) {
         Comment comment = findCommentById(patchCommentDTO.id());
         comment.setContent(patchCommentDTO.content());
-        return new GetCommentDTO(commentsRepository.save(comment));
+        return commentMapper.toGetDto(commentsRepository.save(comment));
     }
 
     private Idea findIdeaById(Long id) {

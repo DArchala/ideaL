@@ -26,7 +26,7 @@ public class Idea {
 
     private LocalDateTime created;
 
-    @OneToMany(mappedBy = "idea", cascade = CascadeType.ALL)
+    @OneToMany
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "idea")

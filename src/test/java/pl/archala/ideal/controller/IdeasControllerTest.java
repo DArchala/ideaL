@@ -39,7 +39,7 @@ class IdeasControllerTest extends PostgresqlContainer {
                 .expectStatus().isCreated()
                 .expectBody(GetIdeaDTO.class).returnResult().getResponseBody();
 
-        webTestClient.get().uri("/api/idea/1").exchange()
+        webTestClient.get().uri("/api/idea/{id}", actualGetIdeaDTO.id()).exchange()
                 .expectStatus().isOk()
                 .expectBody(GetIdeaDTO.class)
                 .isEqualTo(actualGetIdeaDTO);
@@ -82,11 +82,11 @@ class IdeasControllerTest extends PostgresqlContainer {
     @Test
     void shouldThrowNotFoundExceptionIfEntityWithProvidedIdDoesNotExist() {
         //given
-        String notExistingId = "5000";
+        String notExistingId = "1";
         String expectedReason = "Idea with id %s does not exist".formatted(notExistingId);
 
         //when
-        ErrorResponse actualResponse = webTestClient.get().uri("/api/idea/5000").exchange()
+        ErrorResponse actualResponse = webTestClient.get().uri("/api/idea/{id}", notExistingId).exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorResponse.class)
                 .returnResult().getResponseBody();
