@@ -17,38 +17,32 @@ public class CommentsController {
     private final CommentsService commentsService;
 
     @GetMapping
-    public ResponseEntity<GetCommentDTO> getById(@RequestParam Long id) {
-        GetCommentDTO getCommentDTO = commentsService.findById(id);
-        return ResponseEntity.ok(getCommentDTO);
+    public GetCommentDTO getById(@RequestParam Long id) {
+        return commentsService.findById(id);
     }
 
     @PostMapping("/idea")
     public ResponseEntity<GetCommentDTO> saveIdeaComment(@Valid @RequestBody AddIdeaCommentDTO addIdeaCommentDTO) {
-        GetCommentDTO getCommentDTO = commentsService.save(addIdeaCommentDTO);
-        return ResponseEntity.status(201).body(getCommentDTO);
+        return ResponseEntity.status(201).body(commentsService.save(addIdeaCommentDTO));
     }
 
     @PostMapping("/comment")
     public ResponseEntity<GetCommentDTO> saveCommentComment(@Valid @RequestBody AddCommentCommentDTO addIdeaCommentDTO) {
-        GetCommentDTO getCommentDTO = commentsService.save(addIdeaCommentDTO);
-        return ResponseEntity.status(201).body(getCommentDTO);
+        return ResponseEntity.status(201).body(commentsService.save(addIdeaCommentDTO));
     }
 
     @PostMapping("/realization")
     public ResponseEntity<GetCommentDTO> saveRealizationComment(@Valid @RequestBody AddRealizationCommentDTO addRealizationCommentDTO) {
-        GetCommentDTO getCommentDTO = commentsService.save(addRealizationCommentDTO);
-        return ResponseEntity.status(201).body(getCommentDTO);
+        return ResponseEntity.status(201).body(commentsService.save(addRealizationCommentDTO));
     }
 
     @PatchMapping
-    public ResponseEntity<GetCommentDTO> updateCommentContent(@Valid @RequestBody PatchCommentDTO patchCommentDTO) {
-        GetCommentDTO getCommentDTO = commentsService.updateContent(patchCommentDTO);
-        return ResponseEntity.ok(getCommentDTO);
+    public GetCommentDTO updateCommentContent(@Valid @RequestBody PatchCommentDTO patchCommentDTO) {
+        return commentsService.updateContent(patchCommentDTO);
     }
 
     @DeleteMapping
-    public ResponseEntity<GetCommentDTO> delete(@RequestParam Long id) {
-        GetCommentDTO dto = commentsService.deleteById(id);
-        return ResponseEntity.ok(dto);
+    public GetCommentDTO delete(@RequestParam Long id) {
+        return commentsService.deleteById(id);
     }
 }

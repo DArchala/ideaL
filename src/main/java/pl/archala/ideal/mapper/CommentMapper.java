@@ -9,7 +9,6 @@ import pl.archala.ideal.entity.Comment;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Component
 public class CommentMapper {
@@ -36,12 +35,6 @@ public class CommentMapper {
     }
 
     public GetCommentDTO toGetDto(Comment comment) {
-        List<Long> commentsIds = null;
-
-        if (comment.getOptionalComments().isPresent()) {
-            commentsIds = comment.getOptionalComments().get().stream().map(Comment::getId).toList();
-        }
-
-        return new GetCommentDTO(comment.getId(), comment.getContent(), comment.getParentComment().getId(), commentsIds);
+        return new GetCommentDTO(comment.getId(), comment.getContent());
     }
 }

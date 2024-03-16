@@ -5,7 +5,6 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Data
 @Entity
@@ -20,15 +19,7 @@ public class Comment {
 
     private LocalDateTime created;
 
-    @OneToMany(mappedBy = "parentComment")
+    @OneToMany
     private List<Comment> comments;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_comment_id")
-    private Comment parentComment;
-
-    public Optional<List<Comment>> getOptionalComments() {
-        return Optional.ofNullable(comments);
-    }
 
 }
