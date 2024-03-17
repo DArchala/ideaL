@@ -21,4 +21,8 @@ public class RealizationsRepositoryWrapper {
         }
         return optionalComment.get();
     }
+
+    public Realization save(Realization realization) {
+        return repository.save(realization);
+    }
 }

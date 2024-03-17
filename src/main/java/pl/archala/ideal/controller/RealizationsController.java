@@ -18,15 +18,13 @@ public class RealizationsController {
     private final RealizationsService realizationsService;
 
     @GetMapping
-    public ResponseEntity<GetRealizationDTO> getById(@RequestParam Long id) {
-        GetRealizationDTO dto = realizationsService.findById(id);
-        return ResponseEntity.ok(dto);
+    public GetRealizationDTO getById(@RequestParam Long id) {
+        return realizationsService.findById(id);
     }
 
     @PostMapping
     public ResponseEntity<GetRealizationDTO> save(@Valid @RequestBody AddRealizationDTO addRealizationDTO) {
-        GetRealizationDTO dto = realizationsService.save(addRealizationDTO);
-        return ResponseEntity.status(201).body(dto);
+        return ResponseEntity.status(201).body(realizationsService.save(addRealizationDTO));
     }
 
 }
