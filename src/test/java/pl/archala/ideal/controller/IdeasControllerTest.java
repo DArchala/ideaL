@@ -26,6 +26,7 @@ class IdeasControllerTest extends PostgresqlContainer {
     @Test
     void shouldReturnAddedIdea() {
         //given
+        Long id = 1L;
         String title = "idea-title";
         String content = "idea-content";
         AddIdeaDTO addIdeaDTO = new AddIdeaDTO(title, content);
@@ -36,17 +37,15 @@ class IdeasControllerTest extends PostgresqlContainer {
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        GetIdeaDTO actualGetResponse = webTestClient.get().uri("api/idea/details/1").exchange()
+        webTestClient.get().uri("/api/idea/details/{id}", id).exchange()
                 .expectStatus().isOk()
                 .expectBody(GetIdeaDTO.class)
-                .returnResult().getResponseBody();
+                .isEqualTo(actualPostResponse);
 
         //then
-        assertEquals(1L, actualPostResponse.id());
+        assertEquals(id, actualPostResponse.id());
         assertEquals(title, actualPostResponse.title());
         assertEquals(content, actualPostResponse.content());
-
-        assertEquals(actualPostResponse, actualGetResponse);
 
     }
 
@@ -91,17 +90,17 @@ class IdeasControllerTest extends PostgresqlContainer {
 
         //when
         //then
-        GetIdeaDTO getIdeaDTO1 = webTestClient.post().uri("api/idea").bodyValue(addIdeaDTO1).exchange()
+        GetIdeaDTO getIdeaDTO1 = webTestClient.post().uri("/api/idea").bodyValue(addIdeaDTO1).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        GetIdeaDTO getIdeaDTO2 = webTestClient.post().uri("api/idea").bodyValue(addIdeaDTO2).exchange()
+        GetIdeaDTO getIdeaDTO2 = webTestClient.post().uri("/api/idea").bodyValue(addIdeaDTO2).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        webTestClient.get().uri("api/idea/page").exchange()
+        webTestClient.get().uri("/api/idea/page").exchange()
                 .expectStatus().isOk()
                 .expectBodyList(GetIdeaDTO.class).hasSize(2)
                 .contains(getIdeaDTO1, getIdeaDTO2);
