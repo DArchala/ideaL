@@ -6,7 +6,6 @@ import pl.archala.ideal.enums.IdeaCategory;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 
 @Data
