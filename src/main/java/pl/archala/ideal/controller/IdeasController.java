@@ -26,7 +26,7 @@ public class IdeasController {
 
     private final IdeasService ideasService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/details/{id}")
     public GetIdeaDTO getById(@PathVariable Long id) {
         return ideasService.findById(id);
     }
