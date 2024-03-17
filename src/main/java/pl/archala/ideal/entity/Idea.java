@@ -32,11 +32,4 @@ public class Idea {
     @OneToMany(mappedBy = "idea")
     private List<Realization> realizations;
 
-    public Optional<List<Comment>> getOptionalComments() {
-        return Optional.ofNullable(comments);
-    }
-
-    public Optional<List<Realization>> getOptionalRealizations() {
-        return Optional.ofNullable(realizations);
-    }
 }
