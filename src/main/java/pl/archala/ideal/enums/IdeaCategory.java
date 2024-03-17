@@ -39,6 +39,6 @@ public enum IdeaCategory {
     SERIES,
     SPACE,
     SPORT,
-    TECHNOLOGY;
+    TECHNOLOGY
 
 }
