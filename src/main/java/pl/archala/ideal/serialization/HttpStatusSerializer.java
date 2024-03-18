@@ -1,4 +1,4 @@
-package pl.archala.ideal.serial;
+package pl.archala.ideal.serialization;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
