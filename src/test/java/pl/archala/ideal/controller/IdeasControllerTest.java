@@ -7,8 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import pl.archala.ideal.PostgresqlContainer;
+import pl.archala.ideal.dto.comment.AddIdeaCommentDTO;
+import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
+import pl.archala.ideal.dto.realization.AddRealizationDTO;
+import pl.archala.ideal.dto.realization.GetRealizationDTO;
 import pl.archala.ideal.enums.IdeaCategory;
 import pl.archala.ideal.error.ErrorResponse;
 
@@ -107,4 +111,50 @@ class IdeasControllerTest extends PostgresqlContainer {
 
     }
 
+    @Test
+    void shouldDeleteCommentsWithIdeaButNotRealizations() {
+        //given
+        Long ideaId = 1L;
+        String expectedNotFoundMsg = "Idea with id 1 does not exist";
+        AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content");
+        AddIdeaCommentDTO addIdeaCommentDTO = new AddIdeaCommentDTO("idea-comment-content", ideaId);
+        AddRealizationDTO addRealizationDTO = new AddRealizationDTO("realization-content", ideaId);
+
+        //when
+        GetIdeaDTO getIdeaDTO = webTestClient.post().uri("/api/idea").bodyValue(addIdeaDTO).exchange()
+                .expectStatus().isCreated()
+                .expectBody(GetIdeaDTO.class)
+                .returnResult().getResponseBody();
+
+        webTestClient.post().uri("/api/comment/idea").bodyValue(addIdeaCommentDTO).exchange()
+                .expectStatus().isCreated()
+                .expectBody(GetCommentDTO.class);
+
+        webTestClient.post().uri("/api/realization").bodyValue(addRealizationDTO).exchange()
+                .expectStatus().isCreated()
+                .expectBody(GetRealizationDTO.class);
+
+        webTestClient.delete().uri(uriBuilder -> uriBuilder.path("/api/idea")
+                        .queryParam("id", ideaId).build()).exchange()
+                .expectBody(GetIdeaDTO.class).isEqualTo(getIdeaDTO);
+
+        ErrorResponse errorResponse = webTestClient.get().uri("/api/idea/details/{id}", ideaId).exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorResponse.class)
+                .returnResult().getResponseBody();
+
+        webTestClient.get().uri("/api/comment/details/{id}", ideaId).exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorResponse.class);
+
+        webTestClient.get().uri("/api/realization/details/{id}", 1L).exchange()
+                .expectStatus().isOk()
+                .expectBody(GetRealizationDTO.class);
+
+        //then
+        assertEquals(1, errorResponse.reasons().size());
+        assertEquals(expectedNotFoundMsg, errorResponse.reasons().get(0));
+        assertEquals(HttpStatus.NOT_FOUND, errorResponse.status());
+
+    }
 }
