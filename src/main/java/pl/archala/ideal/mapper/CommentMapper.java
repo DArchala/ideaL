@@ -33,6 +33,6 @@ public class CommentMapper {
     }
 
     public GetCommentDTO toGetDto(Comment comment) {
-        return new GetCommentDTO(comment.getId(), comment.getContent());
+        return new GetCommentDTO(comment.getId(), comment.getContent(), comment.getCreated());
     }
 }
