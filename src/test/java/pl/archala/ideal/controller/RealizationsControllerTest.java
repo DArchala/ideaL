@@ -12,6 +12,7 @@ import pl.archala.ideal.dto.idea.GetIdeaDTO;
 import pl.archala.ideal.dto.realization.AddRealizationDTO;
 import pl.archala.ideal.dto.realization.GetRealizationDTO;
 import pl.archala.ideal.dto.errorResponse.ErrorResponse;
+import pl.archala.ideal.enums.IdeaCategory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -65,7 +66,7 @@ class RealizationsControllerTest extends PostgresqlContainer {
     @Test
     void shouldReturnAddedRealization(){
         //given
-        AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content");
+        AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content", IdeaCategory.OTHER);
         AddRealizationDTO addRealizationDTO = new AddRealizationDTO("realization-content", 1L);
 
         //when
@@ -96,7 +97,7 @@ class RealizationsControllerTest extends PostgresqlContainer {
     @Test
     void shouldReturnRealizationsByIdeaId() {
         //given
-        AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content");
+        AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content", IdeaCategory.OTHER);
         AddRealizationDTO addRealizationDTO1 = new AddRealizationDTO("realization-content-1", 1L);
         AddRealizationDTO addRealizationDTO2 = new AddRealizationDTO("realization-content-2", 1L);
 

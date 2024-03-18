@@ -35,7 +35,7 @@ class IdeasControllerTest extends PostgresqlContainer {
         Long id = 1L;
         String title = "idea-title";
         String content = "idea-content";
-        AddIdeaDTO addIdeaDTO = new AddIdeaDTO(title, content);
+        AddIdeaDTO addIdeaDTO = new AddIdeaDTO(title, content, IdeaCategory.OTHER);
 
         //when
         GetIdeaDTO actualPostResponse = webTestClient.post().uri("/api/idea").bodyValue(addIdeaDTO).exchange()
@@ -92,8 +92,8 @@ class IdeasControllerTest extends PostgresqlContainer {
     @Test
     void shouldReturnIdeasPage() {
         //given
-        AddIdeaDTO addIdeaDTO1 = new AddIdeaDTO("title-1", "content-1");
-        AddIdeaDTO addIdeaDTO2 = new AddIdeaDTO("title-2", "content-2");
+        AddIdeaDTO addIdeaDTO1 = new AddIdeaDTO("title-1", "content-1", IdeaCategory.OTHER);
+        AddIdeaDTO addIdeaDTO2 = new AddIdeaDTO("title-2", "content-2", IdeaCategory.OTHER);
 
         //when
         //then
@@ -120,7 +120,7 @@ class IdeasControllerTest extends PostgresqlContainer {
         Long ideaId = 1L;
         String expectedIdeaNotFoundMsg = "Idea with id 1 does not exist";
         String expectedCommentNotFoundMsg = "Comment with id 1 does not exist";
-        AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content");
+        AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content", IdeaCategory.OTHER);
         AddIdeaCommentDTO addIdeaCommentDTO = new AddIdeaCommentDTO("idea-comment-content", ideaId);
         AddRealizationDTO addRealizationDTO = new AddRealizationDTO("realization-content", ideaId);
 

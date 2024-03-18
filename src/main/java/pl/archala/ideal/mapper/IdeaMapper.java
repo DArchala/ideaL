@@ -13,6 +13,7 @@ public class IdeaMapper {
         Idea idea = new Idea();
         idea.setTitle(ideaDTO.title());
         idea.setContent(ideaDTO.content());
+        idea.setCategory(ideaDTO.category());
         idea.setCreated(IdealLocalDateTime.now());
         return idea;
     }
