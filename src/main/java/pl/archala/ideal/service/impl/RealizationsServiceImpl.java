@@ -13,6 +13,7 @@ import pl.archala.ideal.repository.IdeasRepository;
 import pl.archala.ideal.repository.RealizationsRepository;
 import pl.archala.ideal.service.interfaces.RealizationsService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,12 +33,15 @@ public class RealizationsServiceImpl implements RealizationsService {
     @Transactional
     public GetRealizationDTO save(AddRealizationDTO addRealizationDTO) {
         Realization realization = realizationMapper.toEntity(addRealizationDTO);
-        Idea idea = findIdeaById(addRealizationDTO.ideaId());
 
-        realization.setIdea(idea);
-        idea.getRealizations().add(realization);
+        realization.setIdea(findIdeaById(addRealizationDTO.ideaId()));
 
         return realizationMapper.toDto(realizationsRepo.save(realization));
+    }
+
+    @Override
+    public List<GetRealizationDTO> findAllByIdeaId(Long ideaId) {
+        return realizationsRepo.findAllByIdeaId(ideaId).stream().map(realizationMapper::toDto).toList();
     }
 
     private Realization findRealizationById(Long id) {

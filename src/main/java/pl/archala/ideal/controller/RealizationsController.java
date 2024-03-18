@@ -9,6 +9,8 @@ import pl.archala.ideal.dto.realization.AddRealizationDTO;
 import pl.archala.ideal.dto.realization.GetRealizationDTO;
 import pl.archala.ideal.service.interfaces.RealizationsService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/realization")
 @RequiredArgsConstructor
@@ -18,8 +20,13 @@ public class RealizationsController {
     private final RealizationsService realizationsService;
 
     @GetMapping("/details/{id}")
-    public GetRealizationDTO getById(@PathVariable Long id) {
+    public GetRealizationDTO findById(@PathVariable Long id) {
         return realizationsService.findById(id);
+    }
+
+    @GetMapping("/by-idea")
+    public List<GetRealizationDTO> findByIdeaId(@RequestParam Long ideaId) {
+        return realizationsService.findAllByIdeaId(ideaId);
     }
 
     @PostMapping

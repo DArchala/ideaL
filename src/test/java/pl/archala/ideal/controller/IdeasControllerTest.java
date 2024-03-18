@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@SuppressWarnings("ConstantConditions")
 class IdeasControllerTest extends PostgresqlContainer {
 
     @Autowired
@@ -57,19 +58,20 @@ class IdeasControllerTest extends PostgresqlContainer {
     @Test
     void shouldThrowNotFoundExceptionIfEntityWithProvidedIdDoesNotExist() {
         //given
-        String notExistingId = "1";
-        String expectedReason = "Idea with id %s does not exist".formatted(notExistingId);
+        Long id = 1L;
+        String expectedReason = "Idea with id %s does not exist".formatted(id);
 
         //when
-        ErrorResponse actualResponse = webTestClient.get().uri("/api/idea/details/{id}", notExistingId).exchange()
+        ErrorResponse errorResponse = webTestClient.get().uri("/api/idea/details/{id}", id).exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorResponse.class)
                 .returnResult().getResponseBody();
 
         //then
-        assertEquals(HttpStatus.NOT_FOUND, actualResponse.status());
-        assertEquals(1, actualResponse.reasons().size());
-        assertEquals(expectedReason, actualResponse.reasons().getFirst());
+        assertEquals(HttpStatus.NOT_FOUND, errorResponse.status());
+        assertEquals(1, errorResponse.reasons().size());
+        assertEquals(expectedReason, errorResponse.reasons().getFirst());
+        assertNotNull(errorResponse.occurred());
 
     }
 
@@ -158,11 +160,13 @@ class IdeasControllerTest extends PostgresqlContainer {
 
         //then
         assertNotNull(ideaErrorResponse.reasons());
+        assertNotNull(ideaErrorResponse.occurred());
         assertEquals(1, ideaErrorResponse.reasons().size());
         assertEquals(expectedIdeaNotFoundMsg, ideaErrorResponse.reasons().getFirst());
         assertEquals(HttpStatus.NOT_FOUND, ideaErrorResponse.status());
 
         assertNotNull(commentErrorResponse.reasons());
+        assertNotNull(commentErrorResponse.occurred());
         assertEquals(1, commentErrorResponse.reasons().size());
         assertEquals(expectedCommentNotFoundMsg, commentErrorResponse.reasons().getFirst());
         assertEquals(HttpStatus.NOT_FOUND, commentErrorResponse.status());
