@@ -19,6 +19,7 @@ import pl.archala.ideal.error.ErrorResponse;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -68,7 +69,7 @@ class IdeasControllerTest extends PostgresqlContainer {
         //then
         assertEquals(HttpStatus.NOT_FOUND, actualResponse.status());
         assertEquals(1, actualResponse.reasons().size());
-        assertEquals(expectedReason, actualResponse.reasons().get(0));
+        assertEquals(expectedReason, actualResponse.reasons().getFirst());
 
     }
 
@@ -115,7 +116,8 @@ class IdeasControllerTest extends PostgresqlContainer {
     void shouldDeleteCommentsWithIdeaButNotRealizations() {
         //given
         Long ideaId = 1L;
-        String expectedNotFoundMsg = "Idea with id 1 does not exist";
+        String expectedIdeaNotFoundMsg = "Idea with id 1 does not exist";
+        String expectedCommentNotFoundMsg = "Comment with id 1 does not exist";
         AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content");
         AddIdeaCommentDTO addIdeaCommentDTO = new AddIdeaCommentDTO("idea-comment-content", ideaId);
         AddRealizationDTO addRealizationDTO = new AddRealizationDTO("realization-content", ideaId);
@@ -130,31 +132,40 @@ class IdeasControllerTest extends PostgresqlContainer {
                 .expectStatus().isCreated()
                 .expectBody(GetCommentDTO.class);
 
-        webTestClient.post().uri("/api/realization").bodyValue(addRealizationDTO).exchange()
+        GetRealizationDTO getRealizationDTO = webTestClient.post().uri("/api/realization").bodyValue(addRealizationDTO).exchange()
                 .expectStatus().isCreated()
-                .expectBody(GetRealizationDTO.class);
+                .expectBody(GetRealizationDTO.class)
+                .returnResult().getResponseBody();
 
-        webTestClient.delete().uri(uriBuilder -> uriBuilder.path("/api/idea")
-                        .queryParam("id", ideaId).build()).exchange()
-                .expectBody(GetIdeaDTO.class).isEqualTo(getIdeaDTO);
+        webTestClient.delete().uri("/api/idea?id={ideaId}", ideaId).exchange()
+                .expectBody(GetIdeaDTO.class)
+                .isEqualTo(getIdeaDTO);
 
-        ErrorResponse errorResponse = webTestClient.get().uri("/api/idea/details/{id}", ideaId).exchange()
+        ErrorResponse ideaErrorResponse = webTestClient.get().uri("/api/idea/details/{id}", ideaId).exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorResponse.class)
                 .returnResult().getResponseBody();
 
-        webTestClient.get().uri("/api/comment/details/{id}", ideaId).exchange()
+        ErrorResponse commentErrorResponse = webTestClient.get().uri("/api/comment/details/{id}", ideaId).exchange()
                 .expectStatus().isNotFound()
-                .expectBody(ErrorResponse.class);
+                .expectBody(ErrorResponse.class)
+                .returnResult().getResponseBody();
 
         webTestClient.get().uri("/api/realization/details/{id}", 1L).exchange()
                 .expectStatus().isOk()
-                .expectBody(GetRealizationDTO.class);
+                .expectBody(GetRealizationDTO.class)
+                .isEqualTo(getRealizationDTO);
 
         //then
-        assertEquals(1, errorResponse.reasons().size());
-        assertEquals(expectedNotFoundMsg, errorResponse.reasons().get(0));
-        assertEquals(HttpStatus.NOT_FOUND, errorResponse.status());
+        assertNotNull(ideaErrorResponse.reasons());
+        assertEquals(1, ideaErrorResponse.reasons().size());
+        assertEquals(expectedIdeaNotFoundMsg, ideaErrorResponse.reasons().getFirst());
+        assertEquals(HttpStatus.NOT_FOUND, ideaErrorResponse.status());
+
+        assertNotNull(commentErrorResponse.reasons());
+        assertEquals(1, commentErrorResponse.reasons().size());
+        assertEquals(expectedCommentNotFoundMsg, commentErrorResponse.reasons().getFirst());
+        assertEquals(HttpStatus.NOT_FOUND, commentErrorResponse.status());
 
     }
 }
