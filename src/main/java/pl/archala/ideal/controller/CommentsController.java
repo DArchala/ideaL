@@ -16,8 +16,8 @@ public class CommentsController {
 
     private final CommentsService commentsService;
 
-    @GetMapping
-    public GetCommentDTO getById(@RequestParam Long id) {
+    @GetMapping("/details/{id}")
+    public GetCommentDTO getById(@PathVariable Long id) {
         return commentsService.findById(id);
     }
 
