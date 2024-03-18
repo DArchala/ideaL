@@ -48,13 +48,11 @@ public class IdeasController {
             @Max(value = 200, message = "Page length must be equal or less than 200") int pageLength,
             @RequestParam(defaultValue = "ASC") Sort.Direction direction,
             @RequestParam(defaultValue = "id") @NotBlank(message = "Sort field must not be blank") String sortField) {
-        Sort sort = Sort.by(direction, sortField);
-        PageRequest pageRequest = PageRequest.of(pageNumber, pageLength, sort);
-        return ideasService.getPage(pageRequest);
+        return ideasService.getPage(PageRequest.of(pageNumber, pageLength, Sort.by(direction, sortField)));
     }
 
     @DeleteMapping
-    public GetIdeaDTO delete(@RequestParam Long id) {
+    public GetIdeaDTO deleteById(@RequestParam Long id) {
         return ideasService.deleteById(id);
     }
 
