@@ -11,7 +11,7 @@ import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
 import pl.archala.ideal.dto.realization.AddRealizationDTO;
 import pl.archala.ideal.dto.realization.GetRealizationDTO;
-import pl.archala.ideal.error.ErrorResponse;
+import pl.archala.ideal.dto.errorResponse.ErrorResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

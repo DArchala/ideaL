@@ -1,4 +1,4 @@
-package pl.archala.ideal.serialization;
+package pl.archala.ideal.serialization.httpStatus;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.ObjectCodec;

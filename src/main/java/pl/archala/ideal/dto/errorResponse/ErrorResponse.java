@@ -1,12 +1,12 @@
-package pl.archala.ideal.error;
+package pl.archala.ideal.dto.errorResponse;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.http.HttpStatus;
-import pl.archala.ideal.serialization.HttpStatusDeserializer;
-import pl.archala.ideal.serialization.HttpStatusSerializer;
+import pl.archala.ideal.serialization.httpStatus.HttpStatusDeserializer;
+import pl.archala.ideal.serialization.httpStatus.HttpStatusSerializer;
 
 import java.time.LocalDateTime;
 import java.util.List;
