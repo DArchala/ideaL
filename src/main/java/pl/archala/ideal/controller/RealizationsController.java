@@ -17,8 +17,8 @@ public class RealizationsController {
 
     private final RealizationsService realizationsService;
 
-    @GetMapping
-    public GetRealizationDTO getById(@RequestParam Long id) {
+    @GetMapping("/details/{id}")
+    public GetRealizationDTO getById(@PathVariable Long id) {
         return realizationsService.findById(id);
     }
 
