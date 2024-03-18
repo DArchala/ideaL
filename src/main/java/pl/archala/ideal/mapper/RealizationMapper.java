@@ -17,6 +17,6 @@ public class RealizationMapper {
     }
 
     public GetRealizationDTO toDto(Realization realization) {
-        return new GetRealizationDTO(realization.getId(), realization.getContent(), realization.getCreated(), realization.getIdea().getId());
+        return new GetRealizationDTO(realization.getId(), realization.getContent(), realization.getCreated());
     }
 }
