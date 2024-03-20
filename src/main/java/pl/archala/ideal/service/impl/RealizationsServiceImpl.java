@@ -4,10 +4,14 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.archala.ideal.dto.comment.AddCommentDTO;
+import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.realization.AddRealizationDTO;
 import pl.archala.ideal.dto.realization.GetRealizationDTO;
+import pl.archala.ideal.entity.Comment;
 import pl.archala.ideal.entity.Idea;
 import pl.archala.ideal.entity.Realization;
+import pl.archala.ideal.mapper.CommentMapper;
 import pl.archala.ideal.mapper.RealizationMapper;
 import pl.archala.ideal.repository.IdeasRepository;
 import pl.archala.ideal.repository.RealizationsRepository;
@@ -23,6 +27,7 @@ public class RealizationsServiceImpl implements RealizationsService {
     private final RealizationsRepository realizationsRepo;
     private final IdeasRepository ideasRepo;
     private final RealizationMapper realizationMapper;
+    private final CommentMapper commentMapper;
 
     @Override
     public GetRealizationDTO findById(Long id) {
@@ -42,6 +47,17 @@ public class RealizationsServiceImpl implements RealizationsService {
     @Override
     public List<GetRealizationDTO> findAllByIdeaId(Long ideaId) {
         return realizationsRepo.findAllByIdeaId(ideaId).stream().map(realizationMapper::toDto).toList();
+    }
+
+    @Override
+    public GetCommentDTO addComment(AddCommentDTO addCommentDTO) {
+        Realization realization = findRealizationById(addCommentDTO.parentId());
+        Comment comment = commentMapper.toEntity(addCommentDTO);
+
+        realization.getComments().add(comment);
+        realizationsRepo.save(realization);
+
+        return commentMapper.toGetDto(comment);
     }
 
     private Realization findRealizationById(Long id) {

@@ -9,7 +9,7 @@ import pl.archala.ideal.dto.comment.*;
 import pl.archala.ideal.service.interfaces.CommentsService;
 
 @RestController
-@RequestMapping("/api/comment")
+@RequestMapping("/api/comments")
 @RequiredArgsConstructor
 @Validated
 public class CommentsController {

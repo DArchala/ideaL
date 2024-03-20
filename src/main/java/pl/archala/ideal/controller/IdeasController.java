@@ -20,7 +20,7 @@ import pl.archala.ideal.service.interfaces.IdeasService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/idea")
+@RequestMapping("/api/ideas")
 @RequiredArgsConstructor
 @Validated
 public class IdeasController {
@@ -42,7 +42,7 @@ public class IdeasController {
         return ResponseEntity.status(201).body(ideasService.save(ideaDTO));
     }
 
-    @PostMapping("/add-comment")
+    @PostMapping("/comment")
     public ResponseEntity<GetCommentDTO> addComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
         return ResponseEntity.status(201).body(ideasService.addComment(addCommentDTO));
     }

@@ -32,7 +32,7 @@ class RealizationsControllerTest extends PostgresqlContainer {
         String expectedRealizationNotFoundMsg = "Realization with id 1 does not exist";
 
         //when
-        ErrorResponse errorResponse = webTestClient.get().uri("/api/realization/details/{id}", realizationId).exchange()
+        ErrorResponse errorResponse = webTestClient.get().uri("/api/realizations/details/{id}", realizationId).exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorResponse.class)
                 .returnResult().getResponseBody();
@@ -51,7 +51,7 @@ class RealizationsControllerTest extends PostgresqlContainer {
         String expectedIdeaNotFoundMsg = "Idea with id 1 does not exist";
 
         //when
-        ErrorResponse errorResponse = webTestClient.post().uri("/api/realization").bodyValue(addRealizationDTO).exchange()
+        ErrorResponse errorResponse = webTestClient.post().uri("/api/realizations").bodyValue(addRealizationDTO).exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorResponse.class)
                 .returnResult().getResponseBody();
@@ -70,17 +70,17 @@ class RealizationsControllerTest extends PostgresqlContainer {
         AddRealizationDTO addRealizationDTO = new AddRealizationDTO("realization-content", 1L);
 
         //when
-        GetIdeaDTO getIdeaDTO = webTestClient.post().uri("/api/idea").bodyValue(addIdeaDTO).exchange()
+        GetIdeaDTO getIdeaDTO = webTestClient.post().uri("/api/ideas").bodyValue(addIdeaDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        GetRealizationDTO getAddedRealizationDTO = webTestClient.post().uri("/api/realization").bodyValue(addRealizationDTO).exchange()
+        GetRealizationDTO getAddedRealizationDTO = webTestClient.post().uri("/api/realizations").bodyValue(addRealizationDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetRealizationDTO.class)
                 .returnResult().getResponseBody();
 
-        GetRealizationDTO getRealizationDTO = webTestClient.get().uri("/api/realization/details/{id}", getAddedRealizationDTO.id()).exchange()
+        GetRealizationDTO getRealizationDTO = webTestClient.get().uri("/api/realizations/details/{id}", getAddedRealizationDTO.id()).exchange()
                 .expectStatus().isOk()
                 .expectBody(GetRealizationDTO.class)
                 .isEqualTo(getAddedRealizationDTO)
@@ -102,24 +102,24 @@ class RealizationsControllerTest extends PostgresqlContainer {
         AddRealizationDTO addRealizationDTO2 = new AddRealizationDTO("realization-content-2", 1L);
 
         //when
-        GetIdeaDTO getIdeaDTO = webTestClient.post().uri("/api/idea").bodyValue(addIdeaDTO).exchange()
+        GetIdeaDTO getIdeaDTO = webTestClient.post().uri("/api/ideas").bodyValue(addIdeaDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        GetRealizationDTO getRealizationDTO1 = webTestClient.post().uri("/api/realization")
+        GetRealizationDTO getRealizationDTO1 = webTestClient.post().uri("/api/realizations")
                 .bodyValue(addRealizationDTO1).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetRealizationDTO.class)
                 .returnResult().getResponseBody();
 
-        GetRealizationDTO getRealizationDTO2 = webTestClient.post().uri("/api/realization")
+        GetRealizationDTO getRealizationDTO2 = webTestClient.post().uri("/api/realizations")
                 .bodyValue(addRealizationDTO2).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetRealizationDTO.class)
                 .returnResult().getResponseBody();
 
-        webTestClient.get().uri("/api/realization/by-idea?ideaId={ideaId}", getIdeaDTO.id()).exchange()
+        webTestClient.get().uri("/api/realizations/by-idea?ideaId={ideaId}", getIdeaDTO.id()).exchange()
                 .expectStatus().isOk()
                 .expectBodyList(GetRealizationDTO.class)
                 .hasSize(2)

@@ -38,12 +38,12 @@ class IdeasControllerTest extends PostgresqlContainer {
         AddIdeaDTO addIdeaDTO = new AddIdeaDTO(title, content, IdeaCategory.OTHER);
 
         //when
-        GetIdeaDTO actualPostResponse = webTestClient.post().uri("/api/idea").bodyValue(addIdeaDTO).exchange()
+        GetIdeaDTO actualPostResponse = webTestClient.post().uri("/api/ideas").bodyValue(addIdeaDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        webTestClient.get().uri("/api/idea/details/{id}", id).exchange()
+        webTestClient.get().uri("/api/ideas/details/{id}", id).exchange()
                 .expectStatus().isOk()
                 .expectBody(GetIdeaDTO.class)
                 .isEqualTo(actualPostResponse);
@@ -62,7 +62,7 @@ class IdeasControllerTest extends PostgresqlContainer {
         String expectedReason = "Idea with id %s does not exist".formatted(id);
 
         //when
-        ErrorResponse errorResponse = webTestClient.get().uri("/api/idea/details/{id}", id).exchange()
+        ErrorResponse errorResponse = webTestClient.get().uri("/api/ideas/details/{id}", id).exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorResponse.class)
                 .returnResult().getResponseBody();
@@ -82,7 +82,7 @@ class IdeasControllerTest extends PostgresqlContainer {
 
         //when
         //then
-        webTestClient.get().uri("/api/idea/categories").exchange()
+        webTestClient.get().uri("/api/ideas/categories").exchange()
                 .expectStatus().isOk()
                 .expectBodyList(IdeaCategory.class)
                 .isEqualTo(expectedCategories);
@@ -97,17 +97,17 @@ class IdeasControllerTest extends PostgresqlContainer {
 
         //when
         //then
-        GetIdeaDTO getIdeaDTO1 = webTestClient.post().uri("/api/idea").bodyValue(addIdeaDTO1).exchange()
+        GetIdeaDTO getIdeaDTO1 = webTestClient.post().uri("/api/ideas").bodyValue(addIdeaDTO1).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        GetIdeaDTO getIdeaDTO2 = webTestClient.post().uri("/api/idea").bodyValue(addIdeaDTO2).exchange()
+        GetIdeaDTO getIdeaDTO2 = webTestClient.post().uri("/api/ideas").bodyValue(addIdeaDTO2).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        webTestClient.get().uri("/api/idea/page").exchange()
+        webTestClient.get().uri("/api/ideas/page").exchange()
                 .expectStatus().isOk()
                 .expectBodyList(GetIdeaDTO.class).hasSize(2)
                 .contains(getIdeaDTO1, getIdeaDTO2);
@@ -125,35 +125,35 @@ class IdeasControllerTest extends PostgresqlContainer {
         AddRealizationDTO addRealizationDTO = new AddRealizationDTO("realization-content", ideaId);
 
         //when
-        GetIdeaDTO getIdeaDTO = webTestClient.post().uri("/api/idea").bodyValue(addIdeaDTO).exchange()
+        GetIdeaDTO getIdeaDTO = webTestClient.post().uri("/api/ideas").bodyValue(addIdeaDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        webTestClient.post().uri("/api/idea/add-comment").bodyValue(addCommentDTO).exchange()
+        webTestClient.post().uri("/api/ideas/comment").bodyValue(addCommentDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetCommentDTO.class);
 
-        GetRealizationDTO getRealizationDTO = webTestClient.post().uri("/api/realization").bodyValue(addRealizationDTO).exchange()
+        GetRealizationDTO getRealizationDTO = webTestClient.post().uri("/api/realizations").bodyValue(addRealizationDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetRealizationDTO.class)
                 .returnResult().getResponseBody();
 
-        webTestClient.delete().uri("/api/idea?id={ideaId}", ideaId).exchange()
+        webTestClient.delete().uri("/api/ideas?id={ideaId}", ideaId).exchange()
                 .expectBody(GetIdeaDTO.class)
                 .isEqualTo(getIdeaDTO);
 
-        ErrorResponse ideaErrorResponse = webTestClient.get().uri("/api/idea/details/{id}", ideaId).exchange()
+        ErrorResponse ideaErrorResponse = webTestClient.get().uri("/api/ideas/details/{id}", ideaId).exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorResponse.class)
                 .returnResult().getResponseBody();
 
-        ErrorResponse commentErrorResponse = webTestClient.get().uri("/api/comment/details/{id}", ideaId).exchange()
+        ErrorResponse commentErrorResponse = webTestClient.get().uri("/api/comments/details/{id}", ideaId).exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorResponse.class)
                 .returnResult().getResponseBody();
 
-        webTestClient.get().uri("/api/realization/details/{id}", 1L).exchange()
+        webTestClient.get().uri("/api/realizations/details/{id}", 1L).exchange()
                 .expectStatus().isOk()
                 .expectBody(GetRealizationDTO.class)
                 .isEqualTo(getRealizationDTO);
