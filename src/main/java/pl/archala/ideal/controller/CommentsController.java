@@ -26,9 +26,9 @@ public class CommentsController {
         return ResponseEntity.status(201).body(commentsService.save(addCommentDTO));
     }
 
-    @PatchMapping
-    public GetCommentDTO updateCommentContent(@Valid @RequestBody PatchCommentDTO patchCommentDTO) {
-        return commentsService.updateContent(patchCommentDTO);
+    @PutMapping
+    public GetCommentDTO putUpdate(@Valid @RequestBody PutCommentDTO putCommentDTO) {
+        return commentsService.putUpdate(putCommentDTO);
     }
 
     @DeleteMapping

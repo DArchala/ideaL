@@ -10,5 +10,5 @@ public interface CommentsService {
 
     GetCommentDTO deleteById(Long id);
 
-    GetCommentDTO updateContent(PatchCommentDTO patchCommentDTO);
+    GetCommentDTO putUpdate(PutCommentDTO putCommentDTO);
 }

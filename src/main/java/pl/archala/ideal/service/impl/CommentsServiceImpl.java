@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.archala.ideal.dto.comment.AddCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.comment.PatchCommentDTO;
+import pl.archala.ideal.dto.comment.PutCommentDTO;
 import pl.archala.ideal.entity.Comment;
 import pl.archala.ideal.mapper.CommentMapper;
 import pl.archala.ideal.repository.CommentsRepository;
@@ -45,9 +45,8 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     @Override
-    public GetCommentDTO updateContent(PatchCommentDTO patchCommentDTO) {
-        Comment comment = findCommentById(patchCommentDTO.id());
-        comment.setContent(patchCommentDTO.content());
+    public GetCommentDTO putUpdate(PutCommentDTO putCommentDTO) {
+        Comment comment = commentMapper.update(findCommentById(putCommentDTO.id()), putCommentDTO);
         return commentMapper.toGetDto(commentsRepo.save(comment));
     }
 
