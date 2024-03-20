@@ -21,19 +21,9 @@ public class CommentsController {
         return commentsService.findById(id);
     }
 
-    @PostMapping("/idea")
-    public ResponseEntity<GetCommentDTO> saveIdeaComment(@Valid @RequestBody AddIdeaCommentDTO addIdeaCommentDTO) {
-        return ResponseEntity.status(201).body(commentsService.save(addIdeaCommentDTO));
-    }
-
     @PostMapping("/comment")
-    public ResponseEntity<GetCommentDTO> saveCommentComment(@Valid @RequestBody AddCommentCommentDTO addIdeaCommentDTO) {
-        return ResponseEntity.status(201).body(commentsService.save(addIdeaCommentDTO));
-    }
-
-    @PostMapping("/realization")
-    public ResponseEntity<GetCommentDTO> saveRealizationComment(@Valid @RequestBody AddRealizationCommentDTO addRealizationCommentDTO) {
-        return ResponseEntity.status(201).body(commentsService.save(addRealizationCommentDTO));
+    public ResponseEntity<GetCommentDTO> saveCommentComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
+        return ResponseEntity.status(201).body(commentsService.save(addCommentDTO));
     }
 
     @PatchMapping

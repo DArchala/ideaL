@@ -4,14 +4,12 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.archala.ideal.dto.comment.*;
+import pl.archala.ideal.dto.comment.AddCommentDTO;
+import pl.archala.ideal.dto.comment.GetCommentDTO;
+import pl.archala.ideal.dto.comment.PatchCommentDTO;
 import pl.archala.ideal.entity.Comment;
-import pl.archala.ideal.entity.Idea;
-import pl.archala.ideal.entity.Realization;
 import pl.archala.ideal.mapper.CommentMapper;
 import pl.archala.ideal.repository.CommentsRepository;
-import pl.archala.ideal.repository.IdeasRepository;
-import pl.archala.ideal.repository.RealizationsRepository;
 import pl.archala.ideal.service.interfaces.CommentsService;
 
 import java.util.Optional;
@@ -21,8 +19,6 @@ import java.util.Optional;
 public class CommentsServiceImpl implements CommentsService {
 
     private final CommentsRepository commentsRepo;
-    private final IdeasRepository ideasRepo;
-    private final RealizationsRepository realizationsRepo;
     private final CommentMapper commentMapper;
 
     @Override
@@ -32,35 +28,13 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     @Transactional
-    public GetCommentDTO save(AddIdeaCommentDTO addIdeaCommentDTO) {
-        Comment comment = commentMapper.toEntity(addIdeaCommentDTO);
-        Idea idea = findIdeaById(addIdeaCommentDTO.ideaId());
-
-        idea.getComments().add(comment);
-
-        return commentMapper.toGetDto(commentsRepo.save(comment));
-    }
-
-    @Override
-    @Transactional
-    public GetCommentDTO save(AddCommentCommentDTO addCommentCommentDTO) {
-        Comment newComment = commentMapper.toEntity(addCommentCommentDTO);
-        Comment parentComment = findCommentById(addCommentCommentDTO.parentCommentId());
+    public GetCommentDTO save(AddCommentDTO addCommentDTO) {
+        Comment newComment = commentMapper.toEntity(addCommentDTO);
+        Comment parentComment = findCommentById(addCommentDTO.parentId());
 
         parentComment.getComments().add(newComment);
-
-        return commentMapper.toGetDto(commentsRepo.save(newComment));
-    }
-
-    @Override
-    @Transactional
-    public GetCommentDTO save(AddRealizationCommentDTO addRealizationCommentDTO) {
-        Comment newComment = commentMapper.toEntity(addRealizationCommentDTO);
-        Realization realization = findRealizationById(addRealizationCommentDTO.realizationId());
-
-        realization.getComments().add(newComment);
-
-        return commentMapper.toGetDto(commentsRepo.save(newComment));
+        commentsRepo.save(parentComment);
+        return commentMapper.toGetDto(newComment);
     }
 
     @Override
@@ -77,14 +51,6 @@ public class CommentsServiceImpl implements CommentsService {
         return commentMapper.toGetDto(commentsRepo.save(comment));
     }
 
-    private Idea findIdeaById(Long id) {
-        Optional<Idea> ideaOptional = ideasRepo.findById(id);
-        if (ideaOptional.isEmpty()) {
-            throw new EntityNotFoundException("Idea with id %d does not exist".formatted(id));
-        }
-        return ideaOptional.get();
-    }
-
     private Comment findCommentById(Long id) {
         Optional<Comment> optionalComment = commentsRepo.findById(id);
         if (optionalComment.isEmpty()) {
@@ -93,11 +59,4 @@ public class CommentsServiceImpl implements CommentsService {
         return optionalComment.get();
     }
 
-    private Realization findRealizationById(Long id) {
-        Optional<Realization> optionalComment = realizationsRepo.findById(id);
-        if (optionalComment.isEmpty()) {
-            throw new EntityNotFoundException("Realization with id %d does not exist".formatted(id));
-        }
-        return optionalComment.get();
-    }
 }
