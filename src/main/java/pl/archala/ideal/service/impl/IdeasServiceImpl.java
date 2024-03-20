@@ -14,6 +14,7 @@ import pl.archala.ideal.entity.Comment;
 import pl.archala.ideal.entity.Idea;
 import pl.archala.ideal.mapper.CommentMapper;
 import pl.archala.ideal.mapper.IdeaMapper;
+import pl.archala.ideal.repository.CommentsRepository;
 import pl.archala.ideal.repository.IdeasRepository;
 import pl.archala.ideal.repository.RealizationsRepository;
 import pl.archala.ideal.service.interfaces.IdeasService;
@@ -27,6 +28,7 @@ public class IdeasServiceImpl implements IdeasService {
 
     private final IdeasRepository ideasRepo;
     private final RealizationsRepository realizationsRepo;
+    private final CommentsRepository commentsRepo;
     private final IdeaMapper ideaMapper;
     private final CommentMapper commentMapper;
 
@@ -56,9 +58,10 @@ public class IdeasServiceImpl implements IdeasService {
     }
 
     @Override
+    @Transactional
     public GetCommentDTO addComment(AddCommentDTO addCommentDTO) {
         Idea idea = findIdeaById(addCommentDTO.parentId());
-        Comment comment = commentMapper.toEntity(addCommentDTO);
+        Comment comment = commentsRepo.save(commentMapper.toEntity(addCommentDTO));
         idea.getComments().add(comment);
 
         return commentMapper.toGetDto(comment);

@@ -16,4 +16,6 @@ public interface RealizationsService {
     List<GetRealizationDTO> findAllByIdeaId(Long ideaId);
 
     GetCommentDTO addComment(AddCommentDTO addCommentDTO);
+
+    GetRealizationDTO deleteById(Long id);
 }

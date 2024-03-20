@@ -60,6 +60,13 @@ public class RealizationsServiceImpl implements RealizationsService {
         return commentMapper.toGetDto(comment);
     }
 
+    @Override
+    public GetRealizationDTO deleteById(Long id) {
+        Realization realization = findRealizationById(id);
+        realizationsRepo.delete(realization);
+        return realizationMapper.toDto(realization);
+    }
+
     private Realization findRealizationById(Long id) {
         Optional<Realization> optionalComment = realizationsRepo.findById(id);
         if (optionalComment.isEmpty()) {

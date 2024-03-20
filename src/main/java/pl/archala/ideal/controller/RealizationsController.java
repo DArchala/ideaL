@@ -41,4 +41,8 @@ public class RealizationsController {
         return ResponseEntity.status(201).body(realizationsService.save(addRealizationDTO));
     }
 
+    @DeleteMapping
+    public GetRealizationDTO deleteById(@RequestParam Long id) {
+        return realizationsService.deleteById(id);
+    }
 }

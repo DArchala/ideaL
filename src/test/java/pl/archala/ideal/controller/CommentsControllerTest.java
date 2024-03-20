@@ -52,7 +52,7 @@ class CommentsControllerTest extends PostgresqlContainer {
         AddCommentDTO addCommentDTO = new AddCommentDTO("comment-content", 1L);
 
         //when
-        GetIdeaDTO getIdeaDTO = webTestClient.post().uri("api/ideas").bodyValue(addIdeaDTO).exchange()
+        GetIdeaDTO addedIdea = webTestClient.post().uri("/api/ideas").bodyValue(addIdeaDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
@@ -68,11 +68,11 @@ class CommentsControllerTest extends PostgresqlContainer {
                 .isEqualTo(addedComment);
 
         //then
-        assertEquals(1L, getIdeaDTO.id());
-        assertEquals(addIdeaDTO.title(), getIdeaDTO.title());
-        assertEquals(addIdeaDTO.content(), getIdeaDTO.content());
-        assertEquals(addIdeaDTO.category(), getIdeaDTO.category());
-        assertNotNull(getIdeaDTO.created());
+        assertEquals(1L, addedIdea.id());
+        assertEquals(addIdeaDTO.title(), addedIdea.title());
+        assertEquals(addIdeaDTO.content(), addedIdea.content());
+        assertEquals(addIdeaDTO.category(), addedIdea.category());
+        assertNotNull(addedIdea.created());
 
         assertEquals(1L, addedComment.id());
         assertEquals(addCommentDTO.content(), addedComment.content());

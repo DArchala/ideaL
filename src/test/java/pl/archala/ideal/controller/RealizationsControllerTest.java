@@ -7,11 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import pl.archala.ideal.PostgresqlContainer;
+import pl.archala.ideal.dto.comment.AddCommentDTO;
+import pl.archala.ideal.dto.comment.GetCommentDTO;
+import pl.archala.ideal.dto.errorResponse.ErrorResponse;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
 import pl.archala.ideal.dto.realization.AddRealizationDTO;
 import pl.archala.ideal.dto.realization.GetRealizationDTO;
-import pl.archala.ideal.dto.errorResponse.ErrorResponse;
 import pl.archala.ideal.enums.IdeaCategory;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -64,7 +66,7 @@ class RealizationsControllerTest extends PostgresqlContainer {
     }
 
     @Test
-    void shouldReturnAddedRealization(){
+    void shouldReturnAddedRealization() {
         //given
         AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content", IdeaCategory.OTHER);
         AddRealizationDTO addRealizationDTO = new AddRealizationDTO("realization-content", 1L);
@@ -140,6 +142,67 @@ class RealizationsControllerTest extends PostgresqlContainer {
     }
 
     @Test
-    void name() {
+    void shouldDeleteRealizationWithCommentsButWithoutIdea() {
+        //given
+        AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content", IdeaCategory.OTHER);
+        AddRealizationDTO addRealizationDTO = new AddRealizationDTO("realization-content", 1L);
+        AddCommentDTO addCommentDTO = new AddCommentDTO("comment-content", 1L);
+        String expectedRealizationNotFoundMsg = "Realization with id 1 does not exist";
+        String expectedCommentNotFoundMsg = "Comment with id 1 does not exist";
+
+        //when
+        GetIdeaDTO addedIdea = webTestClient.post()
+                .uri("/api/ideas").bodyValue(addIdeaDTO).exchange()
+                .expectStatus().isCreated()
+                .expectBody(GetIdeaDTO.class)
+                .returnResult().getResponseBody();
+
+        GetRealizationDTO addedRealization = webTestClient.post()
+                .uri("/api/realizations").bodyValue(addRealizationDTO).exchange()
+                .expectStatus().isCreated()
+                .expectBody(GetRealizationDTO.class)
+                .returnResult().getResponseBody();
+
+        GetCommentDTO addedComment = webTestClient.post()
+                .uri("/api/realizations/comment").bodyValue(addCommentDTO).exchange()
+                .expectStatus().isCreated()
+                .expectBody(GetCommentDTO.class)
+                .returnResult().getResponseBody();
+
+        webTestClient.delete()
+                .uri("/api/realizations?id=1").exchange()
+                .expectStatus().isOk()
+                .expectBody(GetRealizationDTO.class)
+                .isEqualTo(addedRealization);
+
+        webTestClient.get()
+                .uri("/api/ideas/details/{id}", addedIdea.id()).exchange()
+                .expectStatus().isOk()
+                .expectBody(GetIdeaDTO.class)
+                .isEqualTo(addedIdea);
+
+        ErrorResponse errorRealizationResponse = webTestClient.get()
+                .uri("/api/realizations/details/{id}", addedRealization.id()).exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorResponse.class)
+                .returnResult().getResponseBody();
+
+        ErrorResponse errorCommentResponse = webTestClient.get()
+                .uri("/api/comments/details/{id}", addedComment.id()).exchange()
+                .expectStatus().isNotFound()
+                .expectBody(ErrorResponse.class)
+                .returnResult().getResponseBody();
+
+        //then
+        assertEquals(1, errorRealizationResponse.reasons().size());
+        assertEquals(expectedRealizationNotFoundMsg, errorRealizationResponse.reasons().getFirst());
+        assertEquals(HttpStatus.NOT_FOUND, errorRealizationResponse.status());
+        assertNotNull(errorRealizationResponse.occurred());
+
+        assertEquals(1, errorCommentResponse.reasons().size());
+        assertEquals(expectedCommentNotFoundMsg, errorCommentResponse.reasons().getFirst());
+        assertEquals(HttpStatus.NOT_FOUND, errorCommentResponse.status());
+        assertNotNull(errorCommentResponse.occurred());
+
     }
 }
