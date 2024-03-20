@@ -45,7 +45,7 @@ class RealizationsControllerTest extends PostgresqlContainer {
     }
 
     @Test
-    void shouldThrowExceptionIfIdeaDoesNotExist() {
+    void shouldThrowExceptionIfIdeaWeRealizeDoesNotExist() {
         //given
         AddRealizationDTO addRealizationDTO = new AddRealizationDTO("real-content", 1L);
         String expectedIdeaNotFoundMsg = "Idea with id 1 does not exist";
@@ -137,5 +137,9 @@ class RealizationsControllerTest extends PostgresqlContainer {
         assertEquals(2L, getRealizationDTO2.id());
         assertEquals(addRealizationDTO2.content(), getRealizationDTO2.content());
 
+    }
+
+    @Test
+    void name() {
     }
 }
