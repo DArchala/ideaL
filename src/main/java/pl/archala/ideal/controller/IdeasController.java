@@ -7,10 +7,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pl.archala.ideal.dto.comment.AddCommentDTO;
+import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
 import pl.archala.ideal.enums.IdeaCategory;
@@ -36,9 +37,14 @@ public class IdeasController {
         return List.of(IdeaCategory.values());
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity<GetIdeaDTO> save(@Valid @RequestBody AddIdeaDTO ideaDTO) {
         return ResponseEntity.status(201).body(ideasService.save(ideaDTO));
+    }
+
+    @PostMapping("/add-comment")
+    public ResponseEntity<GetCommentDTO> addComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
+        return ResponseEntity.status(201).body(ideasService.addComment(addCommentDTO));
     }
 
     @GetMapping("/page")

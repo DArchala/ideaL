@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import pl.archala.ideal.PostgresqlContainer;
-import pl.archala.ideal.dto.comment.AddIdeaCommentDTO;
+import pl.archala.ideal.dto.comment.AddCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
@@ -121,7 +121,7 @@ class IdeasControllerTest extends PostgresqlContainer {
         String expectedIdeaNotFoundMsg = "Idea with id 1 does not exist";
         String expectedCommentNotFoundMsg = "Comment with id 1 does not exist";
         AddIdeaDTO addIdeaDTO = new AddIdeaDTO("idea-title", "idea-content", IdeaCategory.OTHER);
-        AddIdeaCommentDTO addIdeaCommentDTO = new AddIdeaCommentDTO("idea-comment-content", ideaId);
+        AddCommentDTO addCommentDTO = new AddCommentDTO("idea-comment-content", ideaId);
         AddRealizationDTO addRealizationDTO = new AddRealizationDTO("realization-content", ideaId);
 
         //when
@@ -130,7 +130,7 @@ class IdeasControllerTest extends PostgresqlContainer {
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        webTestClient.post().uri("/api/comment/idea").bodyValue(addIdeaCommentDTO).exchange()
+        webTestClient.post().uri("/api/idea/add-comment").bodyValue(addCommentDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetCommentDTO.class);
 

@@ -1,6 +1,8 @@
 package pl.archala.ideal.service.interfaces;
 
 import org.springframework.data.domain.PageRequest;
+import pl.archala.ideal.dto.comment.AddCommentDTO;
+import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
 
@@ -15,5 +17,7 @@ public interface IdeasService {
     List<GetIdeaDTO> getPage(PageRequest pageRequest);
 
     GetIdeaDTO deleteById(Long id);
+
+    GetCommentDTO addComment(AddCommentDTO addCommentDTO);
 
 }

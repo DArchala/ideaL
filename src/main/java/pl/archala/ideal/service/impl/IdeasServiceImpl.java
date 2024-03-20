@@ -6,9 +6,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pl.archala.ideal.dto.comment.AddCommentDTO;
+import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
+import pl.archala.ideal.entity.Comment;
 import pl.archala.ideal.entity.Idea;
+import pl.archala.ideal.mapper.CommentMapper;
 import pl.archala.ideal.mapper.IdeaMapper;
 import pl.archala.ideal.repository.IdeasRepository;
 import pl.archala.ideal.repository.RealizationsRepository;
@@ -24,6 +28,7 @@ public class IdeasServiceImpl implements IdeasService {
     private final IdeasRepository ideasRepo;
     private final RealizationsRepository realizationsRepo;
     private final IdeaMapper ideaMapper;
+    private final CommentMapper commentMapper;
 
     public GetIdeaDTO findById(Long id) {
         return ideaMapper.toDto(findIdeaById(id));
@@ -48,6 +53,15 @@ public class IdeasServiceImpl implements IdeasService {
 
         ideasRepo.delete(idea);
         return ideaMapper.toDto(idea);
+    }
+
+    @Override
+    public GetCommentDTO addComment(AddCommentDTO addCommentDTO) {
+        Idea idea = findIdeaById(addCommentDTO.parentId());
+        Comment comment = commentMapper.toEntity(addCommentDTO);
+        idea.getComments().add(comment);
+
+        return commentMapper.toGetDto(comment);
     }
 
     private Idea findIdeaById(Long id) {
