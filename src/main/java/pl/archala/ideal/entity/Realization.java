@@ -19,7 +19,7 @@ public class Realization {
     @JoinColumn(name = "idea_id")
     private Idea idea;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     private String content;

@@ -19,7 +19,7 @@ public class Comment {
 
     private LocalDateTime created;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;
 
 }
