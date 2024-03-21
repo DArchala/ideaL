@@ -17,7 +17,7 @@ public class CommentMapper {
         return comment;
     }
 
-    public Comment update(Comment comment, PutCommentDTO putCommentDTO) {
+    public Comment toUpdatedEntity(Comment comment, PutCommentDTO putCommentDTO) {
         if (putCommentDTO.content() != null) {
             comment.setContent(putCommentDTO.content());
         }

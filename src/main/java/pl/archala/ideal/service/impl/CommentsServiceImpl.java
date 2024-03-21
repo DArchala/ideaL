@@ -32,9 +32,9 @@ public class CommentsServiceImpl implements CommentsService {
     @Override
     public GetCommentDTO addComment(AddCommentDTO addCommentDTO) {
         Comment parentComment = findCommentById(addCommentDTO.parentId());
-        Comment savedComment = commentsRepo.save(commentMapper.toEntity(addCommentDTO));
-        parentComment.getComments().add(savedComment);
-        return commentMapper.toGetDto(savedComment);
+        Comment childComment = commentsRepo.save(commentMapper.toEntity(addCommentDTO));
+        parentComment.getComments().add(childComment);
+        return commentMapper.toGetDto(childComment);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public GetCommentDTO putUpdate(PutCommentDTO putCommentDTO) {
-        Comment comment = commentMapper.update(findCommentById(putCommentDTO.id()), putCommentDTO);
+        Comment comment = commentMapper.toUpdatedEntity(findCommentById(putCommentDTO.id()), putCommentDTO);
         return commentMapper.toGetDto(commentsRepo.save(comment));
     }
 

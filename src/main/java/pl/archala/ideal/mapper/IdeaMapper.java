@@ -18,7 +18,7 @@ public class IdeaMapper {
         return idea;
     }
 
-    public GetIdeaDTO toDto(Idea idea) {
+    public GetIdeaDTO toGetDto(Idea idea) {
         return new GetIdeaDTO(idea.getId(), idea.getTitle(), idea.getContent(), idea.getCreated(), idea.getCategory());
     }
 
