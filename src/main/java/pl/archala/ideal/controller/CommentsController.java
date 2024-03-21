@@ -22,7 +22,7 @@ public class CommentsController {
     }
 
     @PostMapping("/comment")
-    public ResponseEntity<GetCommentDTO> saveCommentComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
+    public ResponseEntity<GetCommentDTO> addComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
         return ResponseEntity.status(201).body(commentsService.addComment(addCommentDTO));
     }
 
