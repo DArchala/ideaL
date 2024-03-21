@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CommentsServiceImpl implements CommentsService {
 
     private final CommentsRepository commentsRepo;
@@ -27,14 +28,11 @@ public class CommentsServiceImpl implements CommentsService {
     }
 
     @Override
-    @Transactional
-    public GetCommentDTO save(AddCommentDTO addCommentDTO) {
-        Comment newComment = commentMapper.toEntity(addCommentDTO);
+    public GetCommentDTO addComment(AddCommentDTO addCommentDTO) {
         Comment parentComment = findCommentById(addCommentDTO.parentId());
-
-        parentComment.getComments().add(newComment);
-        commentsRepo.save(parentComment);
-        return commentMapper.toGetDto(newComment);
+        Comment savedComment = commentsRepo.save(commentMapper.toEntity(addCommentDTO));
+        parentComment.getComments().add(savedComment);
+        return commentMapper.toGetDto(savedComment);
     }
 
     @Override

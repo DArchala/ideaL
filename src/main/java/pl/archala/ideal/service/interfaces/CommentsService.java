@@ -6,9 +6,9 @@ public interface CommentsService {
 
     GetCommentDTO findById(Long id);
 
-    GetCommentDTO save(AddCommentDTO addCommentDTO);
-
     GetCommentDTO deleteById(Long id);
 
     GetCommentDTO putUpdate(PutCommentDTO putCommentDTO);
+
+    GetCommentDTO addComment(AddCommentDTO addCommentDTO);
 }
