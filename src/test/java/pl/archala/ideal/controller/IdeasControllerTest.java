@@ -134,7 +134,7 @@ class IdeasControllerTest extends PostgresqlContainer {
                 .expectStatus().isCreated()
                 .expectBody(GetCommentDTO.class);
 
-        GetRealizationDTO getRealizationDTO = webTestClient.post().uri("/api/realizations").bodyValue(addRealizationDTO).exchange()
+        GetRealizationDTO getRealizationDTO = webTestClient.post().uri("/api/ideas/realization").bodyValue(addRealizationDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetRealizationDTO.class)
                 .returnResult().getResponseBody();

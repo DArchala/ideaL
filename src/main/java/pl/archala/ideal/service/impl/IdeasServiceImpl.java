@@ -71,7 +71,10 @@ public class IdeasServiceImpl implements IdeasService {
     public GetRealizationDTO addRealization(AddRealizationDTO addRealizationDTO) {
         Idea idea = findIdeaById(addRealizationDTO.ideaId());
         Realization realization = realizationsRepo.save(realizationMapper.toEntity(addRealizationDTO));
+
+        realization.setIdea(idea);
         idea.getRealizations().add(realization);
+
         return realizationMapper.toGetDto(realization);
     }
 

@@ -53,7 +53,7 @@ class RealizationsControllerTest extends PostgresqlContainer {
         String expectedIdeaNotFoundMsg = "Idea with id 1 does not exist";
 
         //when
-        ErrorResponse errorResponse = webTestClient.post().uri("/api/realizations").bodyValue(addRealizationDTO).exchange()
+        ErrorResponse errorResponse = webTestClient.post().uri("/api/ideas/realization").bodyValue(addRealizationDTO).exchange()
                 .expectStatus().isNotFound()
                 .expectBody(ErrorResponse.class)
                 .returnResult().getResponseBody();
@@ -77,7 +77,7 @@ class RealizationsControllerTest extends PostgresqlContainer {
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        GetRealizationDTO getAddedRealizationDTO = webTestClient.post().uri("/api/realizations").bodyValue(addRealizationDTO).exchange()
+        GetRealizationDTO getAddedRealizationDTO = webTestClient.post().uri("/api/ideas/realization").bodyValue(addRealizationDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetRealizationDTO.class)
                 .returnResult().getResponseBody();
@@ -109,13 +109,13 @@ class RealizationsControllerTest extends PostgresqlContainer {
                 .expectBody(GetIdeaDTO.class)
                 .returnResult().getResponseBody();
 
-        GetRealizationDTO getRealizationDTO1 = webTestClient.post().uri("/api/realizations")
+        GetRealizationDTO getRealizationDTO1 = webTestClient.post().uri("/api/ideas/realization")
                 .bodyValue(addRealizationDTO1).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetRealizationDTO.class)
                 .returnResult().getResponseBody();
 
-        GetRealizationDTO getRealizationDTO2 = webTestClient.post().uri("/api/realizations")
+        GetRealizationDTO getRealizationDTO2 = webTestClient.post().uri("/api/ideas/realization")
                 .bodyValue(addRealizationDTO2).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetRealizationDTO.class)
@@ -158,7 +158,7 @@ class RealizationsControllerTest extends PostgresqlContainer {
                 .returnResult().getResponseBody();
 
         GetRealizationDTO addedRealization = webTestClient.post()
-                .uri("/api/realizations").bodyValue(addRealizationDTO).exchange()
+                .uri("/api/ideas/realization").bodyValue(addRealizationDTO).exchange()
                 .expectStatus().isCreated()
                 .expectBody(GetRealizationDTO.class)
                 .returnResult().getResponseBody();
