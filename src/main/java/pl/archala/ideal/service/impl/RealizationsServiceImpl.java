@@ -20,6 +20,9 @@ import pl.archala.ideal.service.interfaces.RealizationsService;
 import java.util.List;
 import java.util.Optional;
 
+import static pl.archala.ideal.utils.ExceptionMessage.IDEA_DOES_NOT_EXIST;
+import static pl.archala.ideal.utils.ExceptionMessage.REALIZATION_DOES_NOT_EXIST;
+
 @Service
 @RequiredArgsConstructor
 public class RealizationsServiceImpl implements RealizationsService {
@@ -70,7 +73,7 @@ public class RealizationsServiceImpl implements RealizationsService {
     private Realization findRealizationById(Long id) {
         Optional<Realization> optionalComment = realizationsRepo.findById(id);
         if (optionalComment.isEmpty()) {
-            throw new EntityNotFoundException("Realization with id %d does not exist".formatted(id));
+            throw new EntityNotFoundException(REALIZATION_DOES_NOT_EXIST.formatted(id));
         }
         return optionalComment.get();
     }
@@ -78,7 +81,7 @@ public class RealizationsServiceImpl implements RealizationsService {
     private Idea findIdeaById(Long id) {
         Optional<Idea> ideaOptional = ideasRepo.findById(id);
         if (ideaOptional.isEmpty()) {
-            throw new EntityNotFoundException("Idea with id %d does not exist".formatted(id));
+            throw new EntityNotFoundException(IDEA_DOES_NOT_EXIST.formatted(id));
         }
         return ideaOptional.get();
     }

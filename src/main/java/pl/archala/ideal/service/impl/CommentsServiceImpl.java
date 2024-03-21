@@ -14,6 +14,8 @@ import pl.archala.ideal.service.interfaces.CommentsService;
 
 import java.util.Optional;
 
+import static pl.archala.ideal.utils.ExceptionMessage.COMMENT_DOES_NOT_EXIST;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -51,7 +53,7 @@ public class CommentsServiceImpl implements CommentsService {
     private Comment findCommentById(Long id) {
         Optional<Comment> optionalComment = commentsRepo.findById(id);
         if (optionalComment.isEmpty()) {
-            throw new EntityNotFoundException("Comment with id %d does not exist".formatted(id));
+            throw new EntityNotFoundException(COMMENT_DOES_NOT_EXIST.formatted(id));
         }
         return optionalComment.get();
     }

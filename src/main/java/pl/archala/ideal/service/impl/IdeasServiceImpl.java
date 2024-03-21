@@ -22,6 +22,8 @@ import pl.archala.ideal.service.interfaces.IdeasService;
 import java.util.List;
 import java.util.Optional;
 
+import static pl.archala.ideal.utils.ExceptionMessage.IDEA_DOES_NOT_EXIST;
+
 @Service
 @RequiredArgsConstructor
 public class IdeasServiceImpl implements IdeasService {
@@ -70,7 +72,7 @@ public class IdeasServiceImpl implements IdeasService {
     private Idea findIdeaById(Long id) {
         Optional<Idea> ideaOptional = ideasRepo.findById(id);
         if (ideaOptional.isEmpty()) {
-            throw new EntityNotFoundException("Idea with id %d does not exist".formatted(id));
+            throw new EntityNotFoundException(IDEA_DOES_NOT_EXIST.formatted(id));
         }
         return ideaOptional.get();
     }
