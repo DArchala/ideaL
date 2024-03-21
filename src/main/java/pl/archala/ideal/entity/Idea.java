@@ -21,6 +21,7 @@ public class Idea {
 
     private String content;
 
+    @Enumerated(value = EnumType.STRING)
     private IdeaCategory category;
 
     private LocalDateTime created;
