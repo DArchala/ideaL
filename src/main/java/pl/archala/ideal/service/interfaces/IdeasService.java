@@ -5,6 +5,8 @@ import pl.archala.ideal.dto.comment.AddCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
+import pl.archala.ideal.dto.realization.AddRealizationDTO;
+import pl.archala.ideal.dto.realization.GetRealizationDTO;
 
 import java.util.List;
 
@@ -20,4 +22,5 @@ public interface IdeasService {
 
     GetCommentDTO addComment(AddCommentDTO addCommentDTO);
 
+    GetRealizationDTO addRealization(AddRealizationDTO addRealizationDTO);
 }

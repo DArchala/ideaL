@@ -2,7 +2,6 @@ package pl.archala.ideal.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,10 +9,14 @@ import pl.archala.ideal.dto.comment.AddCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
+import pl.archala.ideal.dto.realization.AddRealizationDTO;
+import pl.archala.ideal.dto.realization.GetRealizationDTO;
 import pl.archala.ideal.entity.Comment;
 import pl.archala.ideal.entity.Idea;
+import pl.archala.ideal.entity.Realization;
 import pl.archala.ideal.mapper.CommentMapper;
 import pl.archala.ideal.mapper.IdeaMapper;
+import pl.archala.ideal.mapper.RealizationMapper;
 import pl.archala.ideal.repository.CommentsRepository;
 import pl.archala.ideal.repository.IdeasRepository;
 import pl.archala.ideal.repository.RealizationsRepository;
@@ -26,47 +29,50 @@ import static pl.archala.ideal.utils.ExceptionMessage.IDEA_DOES_NOT_EXIST;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class IdeasServiceImpl implements IdeasService {
 
     private final IdeasRepository ideasRepo;
     private final RealizationsRepository realizationsRepo;
     private final CommentsRepository commentsRepo;
     private final IdeaMapper ideaMapper;
+    private final RealizationMapper realizationMapper;
     private final CommentMapper commentMapper;
 
     public GetIdeaDTO findById(Long id) {
-        return ideaMapper.toDto(findIdeaById(id));
+        return ideaMapper.toGetDto(findIdeaById(id));
     }
 
     public GetIdeaDTO save(AddIdeaDTO ideaDTO) {
-        Idea saved = ideasRepo.save(ideaMapper.toEntity(ideaDTO));
-        return ideaMapper.toDto(saved);
+        return ideaMapper.toGetDto(ideasRepo.save(ideaMapper.toEntity(ideaDTO)));
     }
 
     public List<GetIdeaDTO> getPage(PageRequest pageRequest) {
-        Page<Idea> ideasPage = ideasRepo.findAll(pageRequest);
-        return ideasPage.map(ideaMapper::toDto).getContent();
+        return ideasRepo.findAll(pageRequest).map(ideaMapper::toGetDto).getContent();
     }
 
     @Override
-    @Transactional
     public GetIdeaDTO deleteById(Long id) {
         Idea idea = findIdeaById(id);
-
         realizationsRepo.detachIdeaFromRealizations(id);
-
         ideasRepo.delete(idea);
-        return ideaMapper.toDto(idea);
+        return ideaMapper.toGetDto(idea);
     }
 
     @Override
-    @Transactional
     public GetCommentDTO addComment(AddCommentDTO addCommentDTO) {
         Idea idea = findIdeaById(addCommentDTO.parentId());
         Comment comment = commentsRepo.save(commentMapper.toEntity(addCommentDTO));
         idea.getComments().add(comment);
-
         return commentMapper.toGetDto(comment);
+    }
+
+    @Override
+    public GetRealizationDTO addRealization(AddRealizationDTO addRealizationDTO) {
+        Idea idea = findIdeaById(addRealizationDTO.ideaId());
+        Realization realization = realizationsRepo.save(realizationMapper.toEntity(addRealizationDTO));
+        idea.getRealizations().add(realization);
+        return realizationMapper.toGetDto(realization);
     }
 
     private Idea findIdeaById(Long id) {

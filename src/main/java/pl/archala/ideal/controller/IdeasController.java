@@ -14,6 +14,8 @@ import pl.archala.ideal.dto.comment.AddCommentDTO;
 import pl.archala.ideal.dto.comment.GetCommentDTO;
 import pl.archala.ideal.dto.idea.AddIdeaDTO;
 import pl.archala.ideal.dto.idea.GetIdeaDTO;
+import pl.archala.ideal.dto.realization.AddRealizationDTO;
+import pl.archala.ideal.dto.realization.GetRealizationDTO;
 import pl.archala.ideal.enums.IdeaCategory;
 import pl.archala.ideal.service.interfaces.IdeasService;
 
@@ -45,6 +47,11 @@ public class IdeasController {
     @PostMapping("/comment")
     public ResponseEntity<GetCommentDTO> addComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
         return ResponseEntity.status(201).body(ideasService.addComment(addCommentDTO));
+    }
+
+    @PostMapping("/realization")
+    public ResponseEntity<GetRealizationDTO> addRealization(@Valid @RequestBody AddRealizationDTO addRealizationDTO) {
+        return ResponseEntity.status(201).body(ideasService.addRealization(addRealizationDTO));
     }
 
     @GetMapping("/page")
