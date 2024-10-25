@@ -48,7 +48,9 @@ public class IdeasServiceImpl implements IdeasService {
     }
 
     public List<GetIdeaDTO> getPage(PageRequest pageRequest) {
-        return ideasRepo.findAll(pageRequest).map(ideaMapper::toGetDto).getContent();
+        return ideasRepo.findAll(pageRequest)
+                        .map(ideaMapper::toGetDto)
+                        .getContent();
     }
 
     @Override
@@ -63,7 +65,8 @@ public class IdeasServiceImpl implements IdeasService {
     public GetCommentDTO addComment(AddCommentDTO addCommentDTO) {
         Idea idea = findIdeaById(addCommentDTO.parentId());
         Comment comment = commentsRepo.save(commentMapper.toEntity(addCommentDTO));
-        idea.getComments().add(comment);
+        idea.getComments()
+            .add(comment);
         return commentMapper.toGetDto(comment);
     }
 
@@ -73,7 +76,8 @@ public class IdeasServiceImpl implements IdeasService {
         Realization realization = realizationsRepo.save(realizationMapper.toEntity(addRealizationDTO));
 
         realization.setIdea(idea);
-        idea.getRealizations().add(realization);
+        idea.getRealizations()
+            .add(realization);
 
         return realizationMapper.toGetDto(realization);
     }

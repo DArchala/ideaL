@@ -32,7 +32,8 @@ public class RealizationsController {
 
     @PostMapping("/comment")
     public ResponseEntity<GetCommentDTO> addComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
-        return ResponseEntity.status(201).body(realizationsService.addComment(addCommentDTO));
+        return ResponseEntity.status(201)
+                             .body(realizationsService.addComment(addCommentDTO));
     }
 
     @DeleteMapping

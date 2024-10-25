@@ -6,6 +6,7 @@ import java.time.temporal.ChronoUnit;
 public final class IdealLocalDateTime {
 
     public static LocalDateTime now() {
-        return LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        return LocalDateTime.now()
+                            .truncatedTo(ChronoUnit.SECONDS);
     }
 }

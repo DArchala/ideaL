@@ -33,7 +33,8 @@ public class CommentsServiceImpl implements CommentsService {
     public GetCommentDTO addComment(AddCommentDTO addCommentDTO) {
         Comment parentComment = findCommentById(addCommentDTO.parentId());
         Comment childComment = commentsRepo.save(commentMapper.toEntity(addCommentDTO));
-        parentComment.getComments().add(childComment);
+        parentComment.getComments()
+                     .add(childComment);
         return commentMapper.toGetDto(childComment);
     }
 

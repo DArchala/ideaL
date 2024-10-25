@@ -32,14 +32,22 @@ class CommentsControllerTest extends PostgresqlContainer {
         String expectedErrorMsg = "Comment with id 1 does not exist";
 
         //when
-        ErrorResponse errorResponse = webTestClient.get().uri("/api/comments/details/{id}", id).exchange()
-                .expectStatus().isNotFound()
-                .expectBody(ErrorResponse.class)
-                .returnResult().getResponseBody();
+        ErrorResponse errorResponse = webTestClient.get()
+                                                   .uri("/api/comments/details/{id}", id)
+                                                   .exchange()
+                                                   .expectStatus()
+                                                   .isNotFound()
+                                                   .expectBody(ErrorResponse.class)
+                                                   .returnResult()
+                                                   .getResponseBody();
 
         //then
-        assertEquals(1, errorResponse.reasons().size());
-        assertEquals(expectedErrorMsg, errorResponse.reasons().getFirst());
+        assertEquals(1,
+                     errorResponse.reasons()
+                                  .size());
+        assertEquals(expectedErrorMsg,
+                     errorResponse.reasons()
+                                  .getFirst());
         assertEquals(HttpStatus.NOT_FOUND, errorResponse.status());
         assertNotNull(errorResponse.occurred());
 
@@ -52,20 +60,33 @@ class CommentsControllerTest extends PostgresqlContainer {
         AddCommentDTO addCommentDTO = new AddCommentDTO("comment-content", 1L);
 
         //when
-        GetIdeaDTO addedIdea = webTestClient.post().uri("/api/ideas").bodyValue(addIdeaDTO).exchange()
-                .expectStatus().isCreated()
-                .expectBody(GetIdeaDTO.class)
-                .returnResult().getResponseBody();
+        GetIdeaDTO addedIdea = webTestClient.post()
+                                            .uri("/api/ideas")
+                                            .bodyValue(addIdeaDTO)
+                                            .exchange()
+                                            .expectStatus()
+                                            .isCreated()
+                                            .expectBody(GetIdeaDTO.class)
+                                            .returnResult()
+                                            .getResponseBody();
 
-        GetCommentDTO addedComment = webTestClient.post().uri("/api/ideas/comment").bodyValue(addCommentDTO).exchange()
-                .expectStatus().isCreated()
-                .expectBody(GetCommentDTO.class)
-                .returnResult().getResponseBody();
+        GetCommentDTO addedComment = webTestClient.post()
+                                                  .uri("/api/ideas/comment")
+                                                  .bodyValue(addCommentDTO)
+                                                  .exchange()
+                                                  .expectStatus()
+                                                  .isCreated()
+                                                  .expectBody(GetCommentDTO.class)
+                                                  .returnResult()
+                                                  .getResponseBody();
 
-        webTestClient.get().uri("/api/comments/details/{id}", addedComment.id()).exchange()
-                .expectStatus().isOk()
-                .expectBody(GetCommentDTO.class)
-                .isEqualTo(addedComment);
+        webTestClient.get()
+                     .uri("/api/comments/details/{id}", addedComment.id())
+                     .exchange()
+                     .expectStatus()
+                     .isOk()
+                     .expectBody(GetCommentDTO.class)
+                     .isEqualTo(addedComment);
 
         //then
         assertEquals(1L, addedIdea.id());

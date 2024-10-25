@@ -41,17 +41,20 @@ public class IdeasController {
 
     @PostMapping
     public ResponseEntity<GetIdeaDTO> save(@Valid @RequestBody AddIdeaDTO ideaDTO) {
-        return ResponseEntity.status(201).body(ideasService.save(ideaDTO));
+        return ResponseEntity.status(201)
+                             .body(ideasService.save(ideaDTO));
     }
 
     @PostMapping("/comment")
     public ResponseEntity<GetCommentDTO> addComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
-        return ResponseEntity.status(201).body(ideasService.addComment(addCommentDTO));
+        return ResponseEntity.status(201)
+                             .body(ideasService.addComment(addCommentDTO));
     }
 
     @PostMapping("/realization")
     public ResponseEntity<GetRealizationDTO> addRealization(@Valid @RequestBody AddRealizationDTO addRealizationDTO) {
-        return ResponseEntity.status(201).body(ideasService.addRealization(addRealizationDTO));
+        return ResponseEntity.status(201)
+                             .body(ideasService.addRealization(addRealizationDTO));
     }
 
     @GetMapping("/page")

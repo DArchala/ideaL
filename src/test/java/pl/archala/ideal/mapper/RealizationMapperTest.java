@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import pl.archala.ideal.dto.realization.AddRealizationDTO;
 import pl.archala.ideal.entity.Realization;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RealizationMapperTest {
 

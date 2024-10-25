@@ -29,7 +29,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @SuppressWarnings("NullableProblems")
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-        List<String> reasons = ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage).toList();
+        List<String> reasons = ex.getBindingResult()
+                                 .getAllErrors()
+                                 .stream()
+                                 .map(ObjectError::getDefaultMessage)
+                                 .toList();
         ErrorResponse errorResponse = mapper.toErrorResponse(reasons, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(errorResponse, errorResponse.status());
     }
@@ -43,7 +47,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(value = ConstraintViolationException.class)
     protected ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
-        List<String> reasons = e.getConstraintViolations().stream().map(ConstraintViolation::getMessageTemplate).toList();
+        List<String> reasons = e.getConstraintViolations()
+                                .stream()
+                                .map(ConstraintViolation::getMessageTemplate)
+                                .toList();
         ErrorResponse errorResponse = mapper.toErrorResponse(reasons, HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(errorResponse, errorResponse.status());
     }
