@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.archala.ideal.dto.comment.AddCommentDTO;
-import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.realization.GetRealizationDTO;
+import pl.archala.ideal.dto.comment.SaveCommentRequest;
+import pl.archala.ideal.dto.comment.GetCommentResponse;
+import pl.archala.ideal.dto.realization.GetRealizationResponse;
 import pl.archala.ideal.service.interfaces.RealizationsService;
 
 import java.util.List;
@@ -21,23 +21,23 @@ public class RealizationController {
     private final RealizationsService realizationsService;
 
     @GetMapping("/details/{id}")
-    public GetRealizationDTO findById(@PathVariable Long id) {
+    public GetRealizationResponse findById(@PathVariable Long id) {
         return realizationsService.findById(id);
     }
 
     @GetMapping("/by-idea")
-    public List<GetRealizationDTO> findByIdeaId(@RequestParam Long ideaId) {
+    public List<GetRealizationResponse> findByIdeaId(@RequestParam Long ideaId) {
         return realizationsService.findAllByIdeaId(ideaId);
     }
 
     @PostMapping("/comment")
-    public ResponseEntity<GetCommentDTO> addComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
+    public ResponseEntity<GetCommentResponse> addComment(@Valid @RequestBody SaveCommentRequest saveCommentRequest) {
         return ResponseEntity.status(201)
-                             .body(realizationsService.addComment(addCommentDTO));
+                             .body(realizationsService.addComment(saveCommentRequest));
     }
 
     @DeleteMapping
-    public GetRealizationDTO deleteById(@RequestParam Long id) {
+    public GetRealizationResponse deleteById(@RequestParam Long id) {
         return realizationsService.deleteById(id);
     }
 }

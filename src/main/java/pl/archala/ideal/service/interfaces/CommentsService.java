@@ -1,16 +1,16 @@
 package pl.archala.ideal.service.interfaces;
 
-import pl.archala.ideal.dto.comment.AddCommentDTO;
-import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.comment.PutCommentDTO;
+import pl.archala.ideal.dto.comment.SaveCommentRequest;
+import pl.archala.ideal.dto.comment.GetCommentResponse;
+import pl.archala.ideal.dto.comment.UpdateCommentRequest;
 
 public interface CommentsService {
 
-    GetCommentDTO findById(Long id);
+    GetCommentResponse findById(Long id);
 
-    GetCommentDTO deleteById(Long id);
+    GetCommentResponse deleteById(Long id);
 
-    GetCommentDTO putUpdate(PutCommentDTO putCommentDTO);
+    GetCommentResponse putUpdate(UpdateCommentRequest updateCommentRequest);
 
-    GetCommentDTO addComment(AddCommentDTO addCommentDTO);
+    GetCommentResponse addComment(SaveCommentRequest saveCommentRequest);
 }

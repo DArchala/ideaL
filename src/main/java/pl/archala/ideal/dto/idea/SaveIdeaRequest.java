@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import pl.archala.ideal.enums.IdeaCategory;
 
-public record AddIdeaDTO(
+public record SaveIdeaRequest(
         @NotBlank(message = "Idea title must not be blank") String title,
         @NotBlank(message = "Idea content must not be blank") String content,
         @NotNull(message = "Idea category must not be null") IdeaCategory category) {

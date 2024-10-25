@@ -5,12 +5,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.archala.ideal.dto.comment.AddCommentDTO;
-import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.idea.AddIdeaDTO;
-import pl.archala.ideal.dto.idea.GetIdeaDTO;
-import pl.archala.ideal.dto.realization.AddRealizationDTO;
-import pl.archala.ideal.dto.realization.GetRealizationDTO;
+import pl.archala.ideal.dto.comment.SaveCommentRequest;
+import pl.archala.ideal.dto.comment.GetCommentResponse;
+import pl.archala.ideal.dto.idea.SaveIdeaRequest;
+import pl.archala.ideal.dto.idea.GetIdeaResponse;
+import pl.archala.ideal.dto.realization.SaveRealizationRequest;
+import pl.archala.ideal.dto.realization.GetRealizationResponse;
 import pl.archala.ideal.entity.Comment;
 import pl.archala.ideal.entity.Idea;
 import pl.archala.ideal.entity.Realization;
@@ -37,22 +37,22 @@ public class IdeasServiceImpl implements IdeasService {
     private final RealizationMapper realizationMapper;
     private final CommentMapper commentMapper;
 
-    public GetIdeaDTO findById(Long id) {
+    public GetIdeaResponse findById(Long id) {
         return ideaMapper.toGetDto(findIdeaById(id));
     }
 
-    public GetIdeaDTO save(AddIdeaDTO ideaDTO) {
+    public GetIdeaResponse save(SaveIdeaRequest ideaDTO) {
         return ideaMapper.toGetDto(ideasRepo.save(ideaMapper.toEntity(ideaDTO)));
     }
 
-    public List<GetIdeaDTO> getPage(PageRequest pageRequest) {
+    public List<GetIdeaResponse> getPage(PageRequest pageRequest) {
         return ideasRepo.findAll(pageRequest)
                         .map(ideaMapper::toGetDto)
                         .getContent();
     }
 
     @Override
-    public GetIdeaDTO deleteById(Long id) {
+    public GetIdeaResponse deleteById(Long id) {
         Idea idea = findIdeaById(id);
         realizationsRepo.detachIdeaFromRealizations(id);
         ideasRepo.delete(idea);
@@ -60,18 +60,18 @@ public class IdeasServiceImpl implements IdeasService {
     }
 
     @Override
-    public GetCommentDTO addComment(AddCommentDTO addCommentDTO) {
-        Idea idea = findIdeaById(addCommentDTO.parentId());
-        Comment comment = commentsRepo.save(commentMapper.toEntity(addCommentDTO));
+    public GetCommentResponse addComment(SaveCommentRequest saveCommentRequest) {
+        Idea idea = findIdeaById(saveCommentRequest.parentId());
+        Comment comment = commentsRepo.save(commentMapper.toEntity(saveCommentRequest));
         idea.getComments()
             .add(comment);
         return commentMapper.toGetDto(comment);
     }
 
     @Override
-    public GetRealizationDTO addRealization(AddRealizationDTO addRealizationDTO) {
-        Idea idea = findIdeaById(addRealizationDTO.ideaId());
-        Realization realization = realizationsRepo.save(realizationMapper.toEntity(addRealizationDTO));
+    public GetRealizationResponse addRealization(SaveRealizationRequest saveRealizationRequest) {
+        Idea idea = findIdeaById(saveRealizationRequest.ideaId());
+        Realization realization = realizationsRepo.save(realizationMapper.toEntity(saveRealizationRequest));
 
         realization.setIdea(idea);
         idea.getRealizations()

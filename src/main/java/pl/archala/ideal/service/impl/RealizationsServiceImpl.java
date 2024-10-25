@@ -4,9 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.archala.ideal.dto.comment.AddCommentDTO;
-import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.realization.GetRealizationDTO;
+import pl.archala.ideal.dto.comment.SaveCommentRequest;
+import pl.archala.ideal.dto.comment.GetCommentResponse;
+import pl.archala.ideal.dto.realization.GetRealizationResponse;
 import pl.archala.ideal.entity.Comment;
 import pl.archala.ideal.entity.Realization;
 import pl.archala.ideal.mapper.CommentMapper;
@@ -29,12 +29,12 @@ public class RealizationsServiceImpl implements RealizationsService {
     private final CommentMapper commentMapper;
 
     @Override
-    public GetRealizationDTO findById(Long id) {
+    public GetRealizationResponse findById(Long id) {
         return realizationMapper.toGetDto(findRealizationById(id));
     }
 
     @Override
-    public List<GetRealizationDTO> findAllByIdeaId(Long ideaId) {
+    public List<GetRealizationResponse> findAllByIdeaId(Long ideaId) {
         return realizationsRepo.findAllByIdeaId(ideaId)
                                .stream()
                                .map(realizationMapper::toGetDto)
@@ -42,16 +42,16 @@ public class RealizationsServiceImpl implements RealizationsService {
     }
 
     @Override
-    public GetCommentDTO addComment(AddCommentDTO addCommentDTO) {
-        Realization realization = findRealizationById(addCommentDTO.parentId());
-        Comment comment = commentsRepo.save(commentMapper.toEntity(addCommentDTO));
+    public GetCommentResponse addComment(SaveCommentRequest saveCommentRequest) {
+        Realization realization = findRealizationById(saveCommentRequest.parentId());
+        Comment comment = commentsRepo.save(commentMapper.toEntity(saveCommentRequest));
         realization.getComments()
                    .add(comment);
         return commentMapper.toGetDto(comment);
     }
 
     @Override
-    public GetRealizationDTO deleteById(Long id) {
+    public GetRealizationResponse deleteById(Long id) {
         Realization realization = findRealizationById(id);
         realizationsRepo.delete(realization);
         return realizationMapper.toGetDto(realization);

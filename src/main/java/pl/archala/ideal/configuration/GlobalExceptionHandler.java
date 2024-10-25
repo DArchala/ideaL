@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.archala.ideal.dto.errorResponse.ErrorResponse;
+import pl.archala.ideal.dto.error.ApiErrorResponse;
 import pl.archala.ideal.mapper.ErrorResponseMapper;
 
 import java.util.List;
@@ -34,31 +34,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                  .stream()
                                  .map(ObjectError::getDefaultMessage)
                                  .toList();
-        ErrorResponse errorResponse = mapper.toErrorResponse(reasons, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(errorResponse, errorResponse.status());
+        ApiErrorResponse apiErrorResponse = mapper.toErrorResponse(reasons, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiErrorResponse, apiErrorResponse.status());
     }
 
     @ExceptionHandler(value = EntityNotFoundException.class)
-    protected ResponseEntity<ErrorResponse> handlePropertyReferenceException(EntityNotFoundException e) {
+    protected ResponseEntity<ApiErrorResponse> handlePropertyReferenceException(EntityNotFoundException e) {
         List<String> reasons = List.of(e.getMessage());
-        ErrorResponse errorResponse = mapper.toErrorResponse(reasons, HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(errorResponse, errorResponse.status());
+        ApiErrorResponse apiErrorResponse = mapper.toErrorResponse(reasons, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(apiErrorResponse, apiErrorResponse.status());
     }
 
     @ExceptionHandler(value = ConstraintViolationException.class)
-    protected ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
+    protected ResponseEntity<ApiErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
         List<String> reasons = e.getConstraintViolations()
                                 .stream()
                                 .map(ConstraintViolation::getMessageTemplate)
                                 .toList();
-        ErrorResponse errorResponse = mapper.toErrorResponse(reasons, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(errorResponse, errorResponse.status());
+        ApiErrorResponse apiErrorResponse = mapper.toErrorResponse(reasons, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiErrorResponse, apiErrorResponse.status());
     }
 
     @ExceptionHandler(value = PropertyReferenceException.class)
-    protected ResponseEntity<ErrorResponse> handleConstraintViolationException(PropertyReferenceException e) {
+    protected ResponseEntity<ApiErrorResponse> handleConstraintViolationException(PropertyReferenceException e) {
         List<String> reasons = List.of(e.getMessage());
-        ErrorResponse errorResponse = mapper.toErrorResponse(reasons, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(errorResponse, errorResponse.status());
+        ApiErrorResponse apiErrorResponse = mapper.toErrorResponse(reasons, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiErrorResponse, apiErrorResponse.status());
     }
 }

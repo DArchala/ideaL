@@ -3,9 +3,9 @@ package pl.archala.ideal.mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.archala.ideal.component.ApplicationTime;
-import pl.archala.ideal.dto.comment.AddCommentDTO;
-import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.comment.PutCommentDTO;
+import pl.archala.ideal.dto.comment.SaveCommentRequest;
+import pl.archala.ideal.dto.comment.GetCommentResponse;
+import pl.archala.ideal.dto.comment.UpdateCommentRequest;
 import pl.archala.ideal.entity.Comment;
 
 @Component
@@ -14,21 +14,21 @@ public class CommentMapper {
 
     private final ApplicationTime applicationTime;
 
-    public Comment toEntity(AddCommentDTO addCommentDTO) {
+    public Comment toEntity(SaveCommentRequest saveCommentRequest) {
         Comment comment = new Comment();
-        comment.setContent(addCommentDTO.content());
+        comment.setContent(saveCommentRequest.content());
         comment.setCreatedAt(applicationTime.now());
         return comment;
     }
 
-    public Comment toUpdatedEntity(Comment comment, PutCommentDTO putCommentDTO) {
-        if (putCommentDTO.content() != null) {
-            comment.setContent(putCommentDTO.content());
+    public Comment toUpdatedEntity(Comment comment, UpdateCommentRequest updateCommentRequest) {
+        if (updateCommentRequest.content() != null) {
+            comment.setContent(updateCommentRequest.content());
         }
         return comment;
     }
 
-    public GetCommentDTO toGetDto(Comment comment) {
-        return new GetCommentDTO(comment.getId(), comment.getContent(), comment.getCreatedAt());
+    public GetCommentResponse toGetDto(Comment comment) {
+        return new GetCommentResponse(comment.getId(), comment.getContent(), comment.getCreatedAt());
     }
 }

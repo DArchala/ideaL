@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.archala.ideal.dto.comment.AddCommentDTO;
-import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.comment.PutCommentDTO;
+import pl.archala.ideal.dto.comment.SaveCommentRequest;
+import pl.archala.ideal.dto.comment.GetCommentResponse;
+import pl.archala.ideal.dto.comment.UpdateCommentRequest;
 import pl.archala.ideal.service.interfaces.CommentsService;
 
 @RestController
@@ -19,23 +19,23 @@ public class CommentController {
     private final CommentsService commentsService;
 
     @GetMapping("/details/{id}")
-    public GetCommentDTO getById(@PathVariable Long id) {
+    public GetCommentResponse getById(@PathVariable Long id) {
         return commentsService.findById(id);
     }
 
     @PostMapping("/comment")
-    public ResponseEntity<GetCommentDTO> addComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
+    public ResponseEntity<GetCommentResponse> addComment(@Valid @RequestBody SaveCommentRequest saveCommentRequest) {
         return ResponseEntity.status(201)
-                             .body(commentsService.addComment(addCommentDTO));
+                             .body(commentsService.addComment(saveCommentRequest));
     }
 
     @PutMapping
-    public GetCommentDTO putUpdate(@Valid @RequestBody PutCommentDTO putCommentDTO) {
-        return commentsService.putUpdate(putCommentDTO);
+    public GetCommentResponse putUpdate(@Valid @RequestBody UpdateCommentRequest updateCommentRequest) {
+        return commentsService.putUpdate(updateCommentRequest);
     }
 
     @DeleteMapping
-    public GetCommentDTO delete(@RequestParam Long id) {
+    public GetCommentResponse delete(@RequestParam Long id) {
         return commentsService.deleteById(id);
     }
 }

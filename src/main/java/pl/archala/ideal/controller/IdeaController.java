@@ -10,12 +10,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.archala.ideal.dto.comment.AddCommentDTO;
-import pl.archala.ideal.dto.comment.GetCommentDTO;
-import pl.archala.ideal.dto.idea.AddIdeaDTO;
-import pl.archala.ideal.dto.idea.GetIdeaDTO;
-import pl.archala.ideal.dto.realization.AddRealizationDTO;
-import pl.archala.ideal.dto.realization.GetRealizationDTO;
+import pl.archala.ideal.dto.comment.SaveCommentRequest;
+import pl.archala.ideal.dto.comment.GetCommentResponse;
+import pl.archala.ideal.dto.idea.SaveIdeaRequest;
+import pl.archala.ideal.dto.idea.GetIdeaResponse;
+import pl.archala.ideal.dto.realization.SaveRealizationRequest;
+import pl.archala.ideal.dto.realization.GetRealizationResponse;
 import pl.archala.ideal.enums.IdeaCategory;
 import pl.archala.ideal.service.interfaces.IdeasService;
 
@@ -30,7 +30,7 @@ public class IdeaController {
     private final IdeasService ideasService;
 
     @GetMapping("/details/{id}")
-    public GetIdeaDTO getById(@PathVariable Long id) {
+    public GetIdeaResponse getById(@PathVariable Long id) {
         return ideasService.findById(id);
     }
 
@@ -40,25 +40,25 @@ public class IdeaController {
     }
 
     @PostMapping
-    public ResponseEntity<GetIdeaDTO> save(@Valid @RequestBody AddIdeaDTO ideaDTO) {
+    public ResponseEntity<GetIdeaResponse> save(@Valid @RequestBody SaveIdeaRequest ideaDTO) {
         return ResponseEntity.status(201)
                              .body(ideasService.save(ideaDTO));
     }
 
     @PostMapping("/comment")
-    public ResponseEntity<GetCommentDTO> addComment(@Valid @RequestBody AddCommentDTO addCommentDTO) {
+    public ResponseEntity<GetCommentResponse> addComment(@Valid @RequestBody SaveCommentRequest saveCommentRequest) {
         return ResponseEntity.status(201)
-                             .body(ideasService.addComment(addCommentDTO));
+                             .body(ideasService.addComment(saveCommentRequest));
     }
 
     @PostMapping("/realization")
-    public ResponseEntity<GetRealizationDTO> addRealization(@Valid @RequestBody AddRealizationDTO addRealizationDTO) {
+    public ResponseEntity<GetRealizationResponse> addRealization(@Valid @RequestBody SaveRealizationRequest saveRealizationRequest) {
         return ResponseEntity.status(201)
-                             .body(ideasService.addRealization(addRealizationDTO));
+                             .body(ideasService.addRealization(saveRealizationRequest));
     }
 
     @GetMapping("/page")
-    public List<GetIdeaDTO> get(
+    public List<GetIdeaResponse> get(
             @RequestParam(defaultValue = "0") @Min(message = "Page number must be equal or greater than 0", value = 0) int pageNumber,
             @RequestParam(defaultValue = "20") @Min(value = 1, message = "Page length must be equal or greater than 1")
             @Max(value = 200, message = "Page length must be equal or less than 200") int pageLength,
@@ -68,7 +68,7 @@ public class IdeaController {
     }
 
     @DeleteMapping
-    public GetIdeaDTO deleteById(@RequestParam Long id) {
+    public GetIdeaResponse deleteById(@RequestParam Long id) {
         return ideasService.deleteById(id);
     }
 
