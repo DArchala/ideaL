@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/realizations")
 @RequiredArgsConstructor
 @Validated
-public class RealizationsController {
+public class RealizationController {
 
     private final RealizationsService realizationsService;
 

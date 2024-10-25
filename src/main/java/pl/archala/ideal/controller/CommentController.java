@@ -14,7 +14,7 @@ import pl.archala.ideal.service.interfaces.CommentsService;
 @RequestMapping("/api/comments")
 @RequiredArgsConstructor
 @Validated
-public class CommentsController {
+public class CommentController {
 
     private final CommentsService commentsService;
 

@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @SuppressWarnings("ConstantConditions")
-class RealizationsControllerTest extends PostgresqlContainer {
+class RealizationControllerTest extends PostgresqlContainer {
 
     @Autowired
     private WebTestClient webTestClient;

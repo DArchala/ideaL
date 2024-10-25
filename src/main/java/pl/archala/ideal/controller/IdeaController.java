@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/api/ideas")
 @RequiredArgsConstructor
 @Validated
-public class IdeasController {
+public class IdeaController {
 
     private final IdeasService ideasService;
 
