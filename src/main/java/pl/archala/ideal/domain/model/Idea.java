@@ -37,6 +37,14 @@ public class Idea {
     @ToString.Exclude
     private List<Realization> realizations;
 
+    public void addRealization(Realization realization) {
+        realizations.add(realization);
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

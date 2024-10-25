@@ -27,6 +27,10 @@ public class Comment {
     @ToString.Exclude
     private List<Comment> comments;
 
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

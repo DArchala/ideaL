@@ -2,15 +2,15 @@ package pl.archala.ideal.domain.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.archala.ideal.infrastructure.component.ExceptionProvider;
-import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
+import pl.archala.ideal.application.database.repository.CommentsRepository;
 import pl.archala.ideal.application.rest.dto.in.SaveCommentRequest;
 import pl.archala.ideal.application.rest.dto.in.UpdateCommentRequest;
+import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
+import pl.archala.ideal.application.rest.mapper.CommentMapper;
 import pl.archala.ideal.domain.enums.ErrorType;
 import pl.archala.ideal.domain.model.Comment;
-import pl.archala.ideal.application.rest.mapper.CommentMapper;
-import pl.archala.ideal.application.database.repository.CommentsRepository;
 import pl.archala.ideal.domain.service.interfaces.CommentsService;
+import pl.archala.ideal.infrastructure.component.ExceptionProvider;
 
 @Service
 @RequiredArgsConstructor
@@ -29,8 +29,7 @@ public class CommentsServiceImpl implements CommentsService {
     public GetCommentResponse addComment(SaveCommentRequest saveCommentRequest) {
         var parentComment = findCommentById(saveCommentRequest.parentId());
         var childComment = commentsRepo.save(commentMapper.toEntity(saveCommentRequest));
-        parentComment.getComments()
-                     .add(childComment);
+        parentComment.addComment(childComment);
         return commentMapper.toGetDto(childComment);
     }
 

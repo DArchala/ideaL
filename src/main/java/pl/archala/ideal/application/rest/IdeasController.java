@@ -8,13 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.archala.ideal.application.rest.dto.in.SaveCommentRequest;
-import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
 import pl.archala.ideal.application.rest.dto.in.SaveIdeaRequest;
-import pl.archala.ideal.application.rest.dto.out.GetIdeaResponse;
 import pl.archala.ideal.application.rest.dto.in.SaveRealizationRequest;
+import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
+import pl.archala.ideal.application.rest.dto.out.GetIdeaResponse;
 import pl.archala.ideal.application.rest.dto.out.GetRealizationResponse;
 import pl.archala.ideal.domain.enums.IdeaCategory;
 import pl.archala.ideal.domain.service.interfaces.IdeasService;
@@ -24,7 +23,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/ideas")
 @RequiredArgsConstructor
-@Validated
 public class IdeasController {
 
     private final IdeasService ideasService;

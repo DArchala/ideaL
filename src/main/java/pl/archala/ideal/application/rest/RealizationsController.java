@@ -2,8 +2,8 @@ package pl.archala.ideal.application.rest;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.archala.ideal.application.rest.dto.in.SaveCommentRequest;
 import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
@@ -15,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/realizations")
 @RequiredArgsConstructor
-@Validated
 public class RealizationsController {
 
     private final RealizationsService realizationsService;
@@ -33,11 +32,12 @@ public class RealizationsController {
     @PostMapping("/comment")
     public ResponseEntity<GetCommentResponse> addComment(@Valid @RequestBody SaveCommentRequest saveCommentRequest) {
         return ResponseEntity.status(201)
-                             .body(realizationsService.addComment(saveCommentRequest));
+                             .body(realizationsService.save(saveCommentRequest));
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping
-    public GetRealizationResponse deleteById(@RequestParam Long id) {
-        return realizationsService.deleteById(id);
+    public void deleteById(@RequestParam Long id) {
+        realizationsService.deleteById(id);
     }
 }

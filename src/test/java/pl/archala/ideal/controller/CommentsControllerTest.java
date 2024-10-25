@@ -6,13 +6,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import pl.archala.ideal.shared.PostgresqlContainer;
 import pl.archala.ideal.application.rest.dto.in.SaveCommentRequest;
-import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
-import pl.archala.ideal.application.rest.dto.out.ApiErrorResponse;
 import pl.archala.ideal.application.rest.dto.in.SaveIdeaRequest;
+import pl.archala.ideal.application.rest.dto.out.ApiErrorResponse;
+import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
 import pl.archala.ideal.application.rest.dto.out.GetIdeaResponse;
 import pl.archala.ideal.domain.enums.IdeaCategory;
+import pl.archala.ideal.shared.PostgresqlContainer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;

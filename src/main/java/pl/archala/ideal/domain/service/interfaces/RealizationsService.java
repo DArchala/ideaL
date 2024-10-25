@@ -12,7 +12,7 @@ public interface RealizationsService {
 
     List<GetRealizationResponse> findAllByIdeaId(Long ideaId);
 
-    GetCommentResponse addComment(SaveCommentRequest saveCommentRequest);
+    GetCommentResponse save(SaveCommentRequest saveCommentRequest);
 
-    GetRealizationResponse deleteById(Long id);
+    void deleteById(Long id);
 }

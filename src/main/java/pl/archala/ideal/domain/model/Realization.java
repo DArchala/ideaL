@@ -31,6 +31,14 @@ public class Realization {
 
     private OffsetDateTime createdAt;
 
+    public void assignIdea(Idea idea) {
+        this.idea = idea;
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

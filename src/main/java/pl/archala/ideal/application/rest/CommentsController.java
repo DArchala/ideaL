@@ -4,17 +4,15 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.archala.ideal.application.rest.dto.in.SaveCommentRequest;
-import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
 import pl.archala.ideal.application.rest.dto.in.UpdateCommentRequest;
+import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
 import pl.archala.ideal.domain.service.interfaces.CommentsService;
 
 @RestController
 @RequestMapping("/api/comments")
 @RequiredArgsConstructor
-@Validated
 public class CommentsController {
 
     private final CommentsService commentsService;
@@ -35,8 +33,8 @@ public class CommentsController {
         return commentsService.putUpdate(updateCommentRequest);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping
-    @ResponseStatus(value = HttpStatus.OK)
     public void deleteById(@RequestParam Long id) {
         commentsService.deleteById(id);
     }

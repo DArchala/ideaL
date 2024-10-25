@@ -4,22 +4,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.archala.ideal.infrastructure.component.ExceptionProvider;
-import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
-import pl.archala.ideal.application.rest.dto.in.SaveCommentRequest;
-import pl.archala.ideal.domain.enums.ErrorType;
-import pl.archala.ideal.application.rest.dto.out.GetIdeaResponse;
-import pl.archala.ideal.application.rest.dto.in.SaveIdeaRequest;
-import pl.archala.ideal.application.rest.dto.out.GetRealizationResponse;
-import pl.archala.ideal.application.rest.dto.in.SaveRealizationRequest;
-import pl.archala.ideal.domain.model.Idea;
-import pl.archala.ideal.application.rest.mapper.CommentMapper;
-import pl.archala.ideal.application.rest.mapper.IdeaMapper;
-import pl.archala.ideal.application.rest.mapper.RealizationMapper;
 import pl.archala.ideal.application.database.repository.CommentsRepository;
 import pl.archala.ideal.application.database.repository.IdeasRepository;
 import pl.archala.ideal.application.database.repository.RealizationsRepository;
+import pl.archala.ideal.application.rest.dto.in.SaveCommentRequest;
+import pl.archala.ideal.application.rest.dto.in.SaveIdeaRequest;
+import pl.archala.ideal.application.rest.dto.in.SaveRealizationRequest;
+import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
+import pl.archala.ideal.application.rest.dto.out.GetIdeaResponse;
+import pl.archala.ideal.application.rest.dto.out.GetRealizationResponse;
+import pl.archala.ideal.application.rest.mapper.CommentMapper;
+import pl.archala.ideal.application.rest.mapper.IdeaMapper;
+import pl.archala.ideal.application.rest.mapper.RealizationMapper;
+import pl.archala.ideal.domain.enums.ErrorType;
+import pl.archala.ideal.domain.model.Idea;
 import pl.archala.ideal.domain.service.interfaces.IdeasService;
+import pl.archala.ideal.infrastructure.component.ExceptionProvider;
 
 import java.util.List;
 
@@ -62,19 +62,18 @@ public class IdeasServiceImpl implements IdeasService {
     public GetCommentResponse addComment(SaveCommentRequest saveCommentRequest) {
         var idea = findIdeaById(saveCommentRequest.parentId());
         var comment = commentsRepo.save(commentMapper.toEntity(saveCommentRequest));
-        idea.getComments()
-            .add(comment);
+        idea.addComment(comment);
         return commentMapper.toGetDto(comment);
     }
 
     @Override
+    @Transactional
     public GetRealizationResponse addRealization(SaveRealizationRequest saveRealizationRequest) {
         var idea = findIdeaById(saveRealizationRequest.ideaId());
         var realization = realizationsRepo.save(realizationMapper.toEntity(saveRealizationRequest));
 
-        realization.setIdea(idea);
-        idea.getRealizations()
-            .add(realization);
+        realization.assignIdea(idea);
+        idea.addRealization(realization);
 
         return realizationMapper.toGetDto(realization);
     }

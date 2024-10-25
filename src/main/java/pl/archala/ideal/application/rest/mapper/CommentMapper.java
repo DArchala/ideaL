@@ -2,11 +2,11 @@ package pl.archala.ideal.application.rest.mapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.archala.ideal.infrastructure.component.ApplicationTime;
 import pl.archala.ideal.application.rest.dto.in.SaveCommentRequest;
-import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
 import pl.archala.ideal.application.rest.dto.in.UpdateCommentRequest;
+import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
 import pl.archala.ideal.domain.model.Comment;
+import pl.archala.ideal.infrastructure.component.ApplicationTime;
 
 @Component
 @RequiredArgsConstructor

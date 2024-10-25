@@ -1,8 +1,8 @@
 package pl.archala.ideal.domain.service.interfaces;
 
 import pl.archala.ideal.application.rest.dto.in.SaveCommentRequest;
-import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
 import pl.archala.ideal.application.rest.dto.in.UpdateCommentRequest;
+import pl.archala.ideal.application.rest.dto.out.GetCommentResponse;
 
 public interface CommentsService {
 
