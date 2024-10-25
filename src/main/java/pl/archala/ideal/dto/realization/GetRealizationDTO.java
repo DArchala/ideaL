@@ -1,7 +1,7 @@
 package pl.archala.ideal.dto.realization;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
-public record GetRealizationDTO(Long id, String content, LocalDateTime created) {
+public record GetRealizationDTO(Long id, String content, OffsetDateTime created) {
 
 }

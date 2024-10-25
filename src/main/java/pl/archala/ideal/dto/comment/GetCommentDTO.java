@@ -1,7 +1,7 @@
 package pl.archala.ideal.dto.comment;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
-public record GetCommentDTO(Long id, String content, LocalDateTime created) {
+public record GetCommentDTO(Long id, String content, OffsetDateTime created) {
 
 }

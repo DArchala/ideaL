@@ -18,8 +18,6 @@ import pl.archala.ideal.service.interfaces.RealizationsService;
 import java.util.List;
 import java.util.Optional;
 
-import static pl.archala.ideal.utils.ExceptionMessage.REALIZATION_DOES_NOT_EXIST;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -62,7 +60,7 @@ public class RealizationsServiceImpl implements RealizationsService {
     private Realization findRealizationById(Long id) {
         Optional<Realization> optionalComment = realizationsRepo.findById(id);
         if (optionalComment.isEmpty()) {
-            throw new EntityNotFoundException(REALIZATION_DOES_NOT_EXIST.formatted(id));
+            throw new EntityNotFoundException("Realization with id %d does not exist".formatted(id));
         }
         return optionalComment.get();
     }

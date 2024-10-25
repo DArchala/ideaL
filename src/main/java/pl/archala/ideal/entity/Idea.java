@@ -1,15 +1,18 @@
 package pl.archala.ideal.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import pl.archala.ideal.enums.IdeaCategory;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
-@Data
+@Builder
+@Getter
 @Entity
 @Table(name = "ideas")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Idea {
 
     @Id
@@ -23,7 +26,7 @@ public class Idea {
     @Enumerated(value = EnumType.STRING)
     private IdeaCategory category;
 
-    private LocalDateTime created;
+    private OffsetDateTime createdAt;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;

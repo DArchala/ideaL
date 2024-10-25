@@ -3,7 +3,7 @@ package pl.archala.ideal.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -24,6 +24,6 @@ public class Realization {
 
     private String content;
 
-    private LocalDateTime created;
+    private OffsetDateTime createdAt;
 
 }

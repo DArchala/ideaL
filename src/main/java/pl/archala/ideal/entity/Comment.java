@@ -3,7 +3,7 @@ package pl.archala.ideal.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Data
@@ -17,7 +17,7 @@ public class Comment {
 
     private String content;
 
-    private LocalDateTime created;
+    private OffsetDateTime createdAt;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Comment> comments;

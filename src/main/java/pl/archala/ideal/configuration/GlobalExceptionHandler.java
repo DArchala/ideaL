@@ -22,7 +22,7 @@ import java.util.List;
 
 @ControllerAdvice
 @RequiredArgsConstructor
-public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final ErrorResponseMapper mapper;
 

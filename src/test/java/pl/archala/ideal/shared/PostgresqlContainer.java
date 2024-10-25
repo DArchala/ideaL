@@ -1,4 +1,4 @@
-package pl.archala.ideal;
+package pl.archala.ideal.shared;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
