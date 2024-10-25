@@ -2,6 +2,7 @@ package pl.archala.ideal.domain.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import pl.archala.ideal.application.rest.dto.in.UpdateCommentRequest;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -29,6 +30,11 @@ public class Comment {
 
     public void addComment(Comment comment) {
         comments.add(comment);
+    }
+
+    public Comment update(UpdateCommentRequest updateCommentRequest) {
+        this.content = updateCommentRequest.content();
+        return this;
     }
 
     @Override

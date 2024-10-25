@@ -29,9 +29,9 @@ import java.util.List;
 public class IdeasServiceImpl implements IdeasService {
 
     private final ExceptionProvider exceptionProvider;
-    private final IdeasRepository ideasRepo;
-    private final RealizationsRepository realizationsRepo;
-    private final CommentsRepository commentsRepo;
+    private final IdeasRepository ideasRepository;
+    private final RealizationsRepository realizationsRepository;
+    private final CommentsRepository commentsRepository;
     private final IdeaMapper ideaMapper;
     private final RealizationMapper realizationMapper;
     private final CommentMapper commentMapper;
@@ -41,45 +41,45 @@ public class IdeasServiceImpl implements IdeasService {
     }
 
     public GetIdeaResponse save(SaveIdeaRequest ideaDTO) {
-        return ideaMapper.toGetDto(ideasRepo.save(ideaMapper.toEntity(ideaDTO)));
+        return ideaMapper.toGetDto(ideasRepository.save(ideaMapper.toEntity(ideaDTO)));
     }
 
     public List<GetIdeaResponse> getPage(PageRequest pageRequest) {
-        return ideasRepo.findAll(pageRequest)
-                        .map(ideaMapper::toGetDto)
-                        .getContent();
+        return ideasRepository.findAll(pageRequest)
+                              .map(ideaMapper::toGetDto)
+                              .getContent();
     }
 
     @Override
     public GetIdeaResponse deleteById(Long id) {
         var idea = findIdeaById(id);
-        realizationsRepo.detachIdeaFromRealizations(id);
-        ideasRepo.delete(idea);
+        realizationsRepository.detachIdeaFromRealizations(id);
+        ideasRepository.delete(idea);
         return ideaMapper.toGetDto(idea);
     }
 
     @Override
     public GetCommentResponse addComment(SaveCommentRequest saveCommentRequest) {
         var idea = findIdeaById(saveCommentRequest.parentId());
-        var comment = commentsRepo.save(commentMapper.toEntity(saveCommentRequest));
+        var comment = commentsRepository.save(commentMapper.toEntity(saveCommentRequest));
         idea.addComment(comment);
-        return commentMapper.toGetDto(comment);
+        return commentMapper.toGetCommentResponse(comment);
     }
 
     @Override
     @Transactional
     public GetRealizationResponse addRealization(SaveRealizationRequest saveRealizationRequest) {
         var idea = findIdeaById(saveRealizationRequest.ideaId());
-        var realization = realizationsRepo.save(realizationMapper.toEntity(saveRealizationRequest));
+        var realization = realizationsRepository.save(realizationMapper.toEntity(saveRealizationRequest));
 
         realization.assignIdea(idea);
         idea.addRealization(realization);
 
-        return realizationMapper.toGetDto(realization);
+        return realizationMapper.toGetRealizationResponse(realization);
     }
 
     private Idea findIdeaById(Long id) {
-        return ideasRepo.findById(id)
-                        .orElseThrow(() -> exceptionProvider.apiException(ErrorType.IDEA_NOT_FOUND, "Realization with id %d does not exist".formatted(id)));
+        return ideasRepository.findById(id)
+                              .orElseThrow(() -> exceptionProvider.apiException(ErrorType.IDEA_NOT_FOUND, "Realization with id %d does not exist".formatted(id)));
     }
 }

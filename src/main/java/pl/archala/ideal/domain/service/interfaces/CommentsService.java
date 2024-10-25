@@ -12,5 +12,5 @@ public interface CommentsService {
 
     GetCommentResponse putUpdate(UpdateCommentRequest updateCommentRequest);
 
-    GetCommentResponse addComment(SaveCommentRequest saveCommentRequest);
+    GetCommentResponse save(SaveCommentRequest saveCommentRequest);
 }

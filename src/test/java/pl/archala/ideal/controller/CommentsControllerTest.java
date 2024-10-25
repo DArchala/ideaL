@@ -32,7 +32,7 @@ class CommentsControllerTest extends PostgresqlContainer {
         String expectedErrorMsg = "Comment with id 1 does not exist";
 
         //when
-        ApiErrorResponse apiErrorResponse = webTestClient.get()
+        var apiErrorResponse = webTestClient.get()
                                                          .uri("/api/comments/details/{id}", id)
                                                          .exchange()
                                                          .expectStatus()
@@ -56,11 +56,11 @@ class CommentsControllerTest extends PostgresqlContainer {
     @Test
     void shouldReturnAddedComment() {
         //given
-        SaveIdeaRequest saveIdeaRequest = new SaveIdeaRequest("idea-title", "idea-content", IdeaCategory.OTHER);
-        SaveCommentRequest saveCommentRequest = new SaveCommentRequest("comment-content", 1L);
+        var saveIdeaRequest = new SaveIdeaRequest("idea-title", "idea-content", IdeaCategory.OTHER);
+        var saveCommentRequest = new SaveCommentRequest("comment-content", 1L);
 
         //when
-        GetIdeaResponse addedIdea = webTestClient.post()
+        var addedIdea = webTestClient.post()
                                                  .uri("/api/ideas")
                                                  .bodyValue(saveIdeaRequest)
                                                  .exchange()
@@ -70,7 +70,7 @@ class CommentsControllerTest extends PostgresqlContainer {
                                                  .returnResult()
                                                  .getResponseBody();
 
-        GetCommentResponse addedComment = webTestClient.post()
+        var addedComment = webTestClient.post()
                                                        .uri("/api/ideas/comment")
                                                        .bodyValue(saveCommentRequest)
                                                        .exchange()

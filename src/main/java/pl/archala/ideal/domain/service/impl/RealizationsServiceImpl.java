@@ -30,14 +30,14 @@ public class RealizationsServiceImpl implements RealizationsService {
 
     @Override
     public GetRealizationResponse findById(Long id) {
-        return realizationMapper.toGetDto(findRealizationById(id));
+        return realizationMapper.toGetRealizationResponse(findRealizationById(id));
     }
 
     @Override
     public List<GetRealizationResponse> findAllByIdeaId(Long ideaId) {
         return realizationsRepo.findAllByIdeaId(ideaId)
                                .stream()
-                               .map(realizationMapper::toGetDto)
+                               .map(realizationMapper::toGetRealizationResponse)
                                .toList();
     }
 
@@ -46,7 +46,7 @@ public class RealizationsServiceImpl implements RealizationsService {
         var realization = findRealizationById(saveCommentRequest.parentId());
         var comment = commentsRepo.save(commentMapper.toEntity(saveCommentRequest));
         realization.addComment(comment);
-        return commentMapper.toGetDto(comment);
+        return commentMapper.toGetCommentResponse(comment);
     }
 
     @Override

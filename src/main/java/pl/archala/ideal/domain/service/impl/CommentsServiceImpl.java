@@ -22,15 +22,15 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public GetCommentResponse findById(Long id) {
-        return commentMapper.toGetDto(findCommentById(id));
+        return commentMapper.toGetCommentResponse(findCommentById(id));
     }
 
     @Override
-    public GetCommentResponse addComment(SaveCommentRequest saveCommentRequest) {
+    public GetCommentResponse save(SaveCommentRequest saveCommentRequest) {
         var parentComment = findCommentById(saveCommentRequest.parentId());
         var childComment = commentsRepo.save(commentMapper.toEntity(saveCommentRequest));
         parentComment.addComment(childComment);
-        return commentMapper.toGetDto(childComment);
+        return commentMapper.toGetCommentResponse(childComment);
     }
 
     @Override
@@ -40,8 +40,9 @@ public class CommentsServiceImpl implements CommentsService {
 
     @Override
     public GetCommentResponse putUpdate(UpdateCommentRequest updateCommentRequest) {
-        var comment = commentMapper.toUpdatedEntity(findCommentById(updateCommentRequest.id()), updateCommentRequest);
-        return commentMapper.toGetDto(commentsRepo.save(comment));
+        var comment = findCommentById(updateCommentRequest.id());
+        var updatedComment = comment.update(updateCommentRequest);
+        return commentMapper.toGetCommentResponse(updatedComment);
     }
 
     private Comment findCommentById(Long id) {

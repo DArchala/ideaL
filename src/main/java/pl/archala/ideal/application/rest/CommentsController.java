@@ -25,7 +25,7 @@ public class CommentsController {
     @PostMapping("/comment")
     public ResponseEntity<GetCommentResponse> save(@Valid @RequestBody SaveCommentRequest saveCommentRequest) {
         return ResponseEntity.status(201)
-                             .body(commentsService.addComment(saveCommentRequest));
+                             .body(commentsService.save(saveCommentRequest));
     }
 
     @PutMapping
